@@ -17,23 +17,62 @@ const fse = require('fs-extra');
 // local modules
 const engine = require('./src/main');
 
-const resourceSimple = require('./test/specs/simple');
+// Define src folders - should move to .env folder
+const srcHTLFolder = './test/templates/';
+const srcSpecFolder = './test/specs/';
+const jsOutputFolder = './jsoutput/';
 
 (async () => {
-  const filename = process.argv[2];
-  const fileshort = filename.substring(filename.lastIndexOf('/')+1);
-  const fileshorthtml = fileshort.replace(".htl", ".html");
-  const template = await fse.readFile(filename, 'utf-8');
 
-  const resource = resourceSimple;
+  fse.readdir(srcHTLFolder, async function (err, files) {
+    if (err) {
+      console.error("Could not list the directory.", err);
+      process.exit(1);
+    }
+  
+    files.forEach(async function (file, index) {
+      let filename = path.join(srcHTLFolder, file);
 
-  engine(resource, template).then((ret) => {
-    // eslint-disable-next-line no-console
+      // Previous implementation from Node CLI
+      // const filename = process.argv[2];
+
+      // New implementation which loops through the test folder
+      let fileshort = filename.substring(filename.lastIndexOf('/')+1);
+      let fileshorthtml = fileshort.replace(".htl", ".html");
+      let resourceFile = fileshorthtml.replace(".html", ".js");
+      let resource = require(srcSpecFolder + resourceFile);
+
+      let template = await fse.readFile(filename, 'utf-8');
+
+      fse.stat(filename, async function (error, stat) {
+        if (error) {
+          console.error("Error stating file.", error);
+          return;
+        }
+  
+        if (stat.isFile()) {
+          console.log("'%s' is a file to be processed.", filename);
+
+          engine(resource, template, resourceFile).then((ret) => {
+            // eslint-disable-next-line no-console
+            
+            const filenameOut = path.resolve(process.cwd(), './generated_html/' + fileshorthtml);
+            fse.writeFile(filenameOut, ret.body, 'utf-8');
+
+            // Remove generated javascript files
+            fse.unlinkSync(jsOutputFolder + resourceFile);
+            
+            // Optional output html to console
+            // console.log(ret.body);
     
-    const filenameOut = path.resolve(process.cwd(), './generated_html/' + fileshorthtml);
-    fse.writeFile(filenameOut, ret.body, 'utf-8');
+          });
+        }
 
-    // console.log(ret.body);
+        else if (stat.isDirectory())
+          console.log("'%s' is a directory to be skipped.", filename);
 
+      });
+    });
   });
+
 })();

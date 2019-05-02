@@ -23,7 +23,7 @@ const Compiler = require('../node_modules/@adobe/htlengine/src/compiler/Compiler
  * @param template the HTL script
  * @returns A promise that resolves to the evaluated code.
  */
-module.exports = async function main(resource, template) {
+module.exports = async function main(resource, template, resourceFileName) {
   const compiler = new Compiler()
     .withOutputDirectory('.')
     .includeRuntime(true)
@@ -32,7 +32,7 @@ module.exports = async function main(resource, template) {
 
   let code = await compiler.compileToString(template);
 
-  const filename = path.resolve(process.cwd(), './jsoutput/out.js');
+  const filename = path.resolve(process.cwd(), './jsoutput/' + resourceFileName);
   await fse.writeFile(filename, code, 'utf-8');
 
   // eslint-disable-next-line import/no-dynamic-require,global-require

@@ -12,11 +12,7 @@ The HTL file to edit is in test/templates/*.htl
 
 ### To Start
 
-Need to create a symlink to the src folder
-
-> ln -s node_modules/@adobe/htlengine/src
-
-Then install packages with Yarn
+Install packages with Yarn
 
 > yarn install
 
@@ -34,10 +30,14 @@ Production mode
 
 ### To Run
 
-Sample Run to generate html version of file simple.htl
+Sample Run to generate html versions
 
-> yarn start test/templates/simple.htl
+> yarn start
 
-The HTML file will then be available on
+The HTML file will then be available on the local server, eg.
 
 > http://localhost:3000/simple.html
+
+### TO DO
+
+Hot reloading when files change
