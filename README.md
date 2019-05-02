@@ -4,7 +4,7 @@ This project is about creating a means to separate AEM Back End Tech from Front 
 
 This is currently a 1 to 1 file generator from HTL to HTML with only NodeJS
 
-The reference html file is meant to be stored in test/specs/*.spec.html
+The reference html file is meant to be stored in test/rawhtml/*.spec.html
 
 The JSON object will be stored in test/specs/*.js
 
