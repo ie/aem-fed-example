@@ -41,3 +41,4 @@ The HTML file will then be available on the local server, eg.
 ### TO DO
 
 Hot reloading when files change
+Resolve all eslint errors
