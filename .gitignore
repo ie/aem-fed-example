@@ -1,3 +1,3 @@
 node_modules/
-src
-out.js
+generated_html/
+jsoutput/

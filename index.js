@@ -10,21 +10,30 @@
  * governing permissions and limitations under the License.
  */
 
+// built-in modules
+const path = require('path');
 // declared dependencies
 const fse = require('fs-extra');
 // local modules
-const engine = require('./node_modules/@adobe/htlengine/src/main');
+const engine = require('./src/main');
 
 const resourceSimple = require('./test/specs/simple');
 
 (async () => {
   const filename = process.argv[2];
+  const fileshort = filename.substring(filename.lastIndexOf('/')+1);
+  const fileshorthtml = fileshort.replace(".htl", ".html");
   const template = await fse.readFile(filename, 'utf-8');
 
   const resource = resourceSimple;
 
   engine(resource, template).then((ret) => {
     // eslint-disable-next-line no-console
-    console.log(ret.body);
+    
+    const filenameOut = path.resolve(process.cwd(), './generated_html/' + fileshorthtml);
+    fse.writeFile(filenameOut, ret.body, 'utf-8');
+
+    // console.log(ret.body);
+
   });
 })();
