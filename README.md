@@ -1,6 +1,8 @@
-### About
+# aem-fed-example
 
-This project is about creating a means to separate AEM Back End Tech from Front End Development
+*Creating a means to separate AEM Back End Tech from Front End Development*
+
+### About
 
 This is currently a 1 to 1 file generator from HTL to HTML with only NodeJS
 
@@ -14,11 +16,15 @@ The HTL file to edit is in test/templates/*.htl
 
 Install packages with Yarn
 
-> yarn install
+```bash
+yarn install
+```
 
 Set up folders required
 
-> yarn init-folders
+```bash
+yarn init-folders
+```
 
 ### Express
 
@@ -26,23 +32,36 @@ Run Express in a separate terminal to be able to view the files in the browser
 
 Debug mode
 
-> npm run serve-debug
+```bash
+npm run serve-debug
+```
 
 Production mode
 
-> npm run serve
+```bash
+npm run serve
+```
 
 ### To Run
 
 Sample Run to generate html versions
 
-> yarn start
+```bash
+yarn start
+```
 
 The HTML file will then be available on the local server, eg.
 
-> http://localhost:3000/simple.html
+http://localhost:3000/simple.html
+
 
 ### TO DO
+
+Embed htl partials
+
+Adding SCSS support
+
+Client libs
 
 Hot reloading when files change
 
