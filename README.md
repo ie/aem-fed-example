@@ -16,6 +16,10 @@ Install packages with Yarn
 
 > yarn install
 
+Set up folders required
+
+> yarn init-folders
+
 ### Express
 
 Run Express in a separate terminal to be able to view the files in the browser
@@ -41,4 +45,5 @@ The HTML file will then be available on the local server, eg.
 ### TO DO
 
 Hot reloading when files change
+
 Resolve all eslint errors

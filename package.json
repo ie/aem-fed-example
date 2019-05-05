@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "init-folders": "node ./src/initFolders",
     "start": "node .",
     "serve": "node ./bin/www",
     "serve-debug": "DEBUG=myapp:* npm run serve",
