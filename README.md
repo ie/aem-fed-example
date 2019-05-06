@@ -90,7 +90,7 @@ Install packages with Yarn
 yarn install
 ```
 
-Set up folders required
+Set up folders required (or can manually create generated_html/ and jsoutput/)
 
 ```bash
 yarn init-folders
