@@ -1,17 +1,12 @@
+// Load JSON specific to this page
+let fullObj = require('./simple-2-json.js');
+
 const loadComponents = require('../../src/loadComponents');
 
-let fullObj = {
-  name: 'World 2',
-  properties: {
-    title: 'Hello',
-    fruits: ['Apple 2', 'Banana 2', 'Orange 2'],
-  }
-};
-
-// Merge current object with other component objects
+// Merge current page object with other component objects
 (async () => {
   await loadComponents(fullObj, function(fullObj) { 
-    // console.log ("all component data", fullObj)
+    // console.log ("all component data merged with current page data", fullObj)
   });
 })();
 

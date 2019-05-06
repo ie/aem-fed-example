@@ -68,7 +68,7 @@ Sample templates/html-1.js:
 const loadComponents = require('../../src/loadComponents');
 
 let fullObj = {
-    specific: "JSON specific to this component",
+    specific: "JSON specific to this page",
     ...
 };
 
