@@ -38,8 +38,8 @@ Sample JSON: components/component-1/component-1.js:
 
 ~~~~
 module.exports = {
-  title: \'Information Component\',
-  description: \'Just some information\'
+  title: 'Information Component',
+  description: 'Just some information'
 };
 ~~~~
 
