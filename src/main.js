@@ -24,6 +24,7 @@ const Compiler = require('../node_modules/@adobe/htlengine/src/compiler/Compiler
  * @returns A promise that resolves to the evaluated code.
  */
 module.exports = async function main(resource, template, resourceFileName) {
+  resource = await resource;
   const compiler = new Compiler()
     .withOutputDirectory('.')
     .includeRuntime(true)
@@ -35,9 +36,7 @@ module.exports = async function main(resource, template, resourceFileName) {
   const filename = path.resolve(process.cwd(), './jsoutput/' + resourceFileName);
   await fse.writeFile(filename, code, 'utf-8');
 
-  // eslint-disable-next-line import/no-dynamic-require,global-require
   delete require.cache[require.resolve(filename)];
-  // eslint-disable-next-line import/no-dynamic-require,global-require
   const service = require(filename);
   return service.main(resource);
 };

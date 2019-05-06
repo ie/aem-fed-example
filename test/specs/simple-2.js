@@ -1,13 +1,10 @@
-// Load JSON specific to this page
-let fullObj = require('./simple-2-json.js');
-
 const loadComponents = require('../../src/loadComponents');
 
-// Merge current page object with other component objects
-(async () => {
-  await loadComponents(fullObj, function(fullObj) { 
-    // console.log ("all component data merged with current page data", fullObj)
-  });
-})();
+const jsonFilePath = "test/specs/simple-2.json";
+const jsonApiUrl = null;
 
-module.exports = fullObj;
+module.exports = new Promise(function(resolve, reject){
+  (async () => {
+     resolve (await loadComponents(jsonFilePath, jsonApiUrl));
+  })();
+});

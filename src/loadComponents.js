@@ -3,6 +3,10 @@ const path = require('path');
 // declared dependencies
 const fse = require('fs-extra');
 
+const devJson = true; // Move to .env file
+
+const { retrieveDataFromLocal, retrieveDataFromUrl } = require('./loadJsonData');
+
 // Define src folders - should move to .env file
 const srcComponentsFolder = './test/components/';
 
@@ -49,4 +53,23 @@ const loadComponents = async (fullObj, callback) => {
     });
 }
 
-module.exports = loadComponents;
+module.exports = function (jsonFilePath, jsonApiUrl) {
+    return new Promise(function(resolve){
+        (async () => {
+            let dataJson;
+            try {
+                if (devJson) {
+                    dataJson = await retrieveDataFromLocal(__dirname + "/../" + jsonFilePath);
+                } else {
+                    dataJson = await retrieveDataFromUrl(jsonApiUrl);
+                }
+            } catch (err) {
+                dataJson = null;
+            }
+            await loadComponents(dataJson, function(combinedFullObj) { 
+                // console.log ("all component data merged with current page data", combinedFullObj);
+                resolve(combinedFullObj);
+            });
+        })();
+    })
+};
