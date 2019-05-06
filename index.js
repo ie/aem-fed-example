@@ -22,6 +22,8 @@ const srcHTLFolder = './test/templates/';
 const srcSpecFolder = './test/specs/';
 const jsOutputFolder = './jsoutput/';
 
+// Full HTL section
+
 (async () => {
 
   fse.readdir(srcHTLFolder, async function (err, files) {
@@ -76,3 +78,4 @@ const jsOutputFolder = './jsoutput/';
   });
 
 })();
+

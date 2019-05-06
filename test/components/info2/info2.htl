@@ -1,0 +1,5 @@
+<template data-sly-template.info2="${@ info2}">
+    <h1>${info2.title}</h1>
+    <p>${info2.description}</p>
+</template>
+
