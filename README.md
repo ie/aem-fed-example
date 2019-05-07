@@ -13,18 +13,22 @@ The structure expected is as follows
 ```bash
 .
 +-- components
-|   +-- component-1 (put component htl and js together)
+|   +-- component-1 (put component htl, js and JSON together)
 |   |   +-- component-1.htl 
 |   |   +-- component-1.js
-|   +-- component-2 (put component htl and js together)
+|   |   +-- component-1.json
+|   +-- component-2 (put component htl, js and JSON together)
 |   |   +-- component-2.htl 
 |   |   +-- component-2.js
+|   |   +-- component-2.json
 +-- rawhtml (this is the full static html reference)
 |   +-- html-1.spec.html
 |   +-- html-2.spec.html
-+-- specs (this is the JSON object files of full html pages)
++-- specs (this is the JSON object logic of full html pages)
 |   +-- html-1.js
+|   +-- html-1.json
 |   +-- html-2.js
+|   +-- html-2.json
 +-- templates (this is the HTL version of the full html page)
 |   +-- html-1.htl
 |   +-- html-2.htl
@@ -37,10 +41,16 @@ Component HTL template is as follows:
 Sample JSON: components/component-1/component-1.js:
 
 ~~~~
-module.exports = {
-  title: 'Information Component',
-  description: 'Just some information'
-};
+const { retrieveJsonData } = require('../../../src/loadJsonData');
+
+const jsonFilePath = "test/components/component-1/component-1.json";
+const jsonApiUrl = null;
+
+module.exports = new Promise(async (resolve) => {
+  let jsonData = await retrieveJsonData(jsonFilePath, jsonApiUrl);
+  resolve (jsonData);
+});
+
 ~~~~
 
 Sample HTL: components/component-1/component-1.htl:
@@ -62,24 +72,20 @@ Sample templates/html-1.htl:
 <div data-sly-use.lib="./test/components/component-1/component-1.htl" data-sly-call="${lib.component-1 @ component-1=component-1}"></div>
 ~~~~
 
-Sample templates/html-1.js:
+Sample specs/html-1.js:
 
 ~~~~
+const { extendJson, retrieveJsonData } = require('../../src/loadJsonData');
 const loadComponents = require('../../src/loadComponents');
 
-let fullObj = {
-    specific: "JSON specific to this page",
-    ...
-};
+const jsonFilePath = "test/specs//html-1.json";
+const jsonApiUrl = null;
 
-// Merge current object with other component objects
-(async () => {
-  await loadComponents(fullObj, function(fullObj) { 
-    // console.log ("all component data", fullObj)
-  });
-})();
-
-module.exports = fullObj;
+module.exports = new Promise(async (resolve) => {
+  let jsonData = await retrieveJsonData(jsonFilePath, jsonApiUrl);
+  let allComponentData = await loadComponents();
+  resolve (extendJson (allComponentData, jsonData));
+});
 ~~~~
 
 ### To Start

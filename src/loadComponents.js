@@ -6,12 +6,7 @@ const fse = require('fs-extra');
 // Define src folders - should move to .env file
 const srcComponentsFolder = './test/components/';
 
-// Convert foreach to async
-async function asyncForEach(array, callback) {
-    for (let index = 0; index < array.length; index++) {
-      await callback(array[index], index, array);
-    }
-}
+const { asyncForEach } = require('./helpers');
 
 let fullObj;
 
@@ -53,11 +48,11 @@ const runThroughAllComponentDirs = async (file) => {
       let innerDirectory = srcComponentsFolder + "/" + file + "/";
       let filesInner = fse.readdirSync(innerDirectory);
       await asyncForEach(filesInner, async (fileInner, index) => {
-          fullObj = loadInComponentFile (innerDirectory, fileInner);
+          fullObj = await loadInComponentFile (innerDirectory, fileInner);
       });
 }
 
-const loadInComponentFile = (innerDirectory, fileInner) => {
+const loadInComponentFile = async (innerDirectory, fileInner) => {
     let filename = path.join(innerDirectory, fileInner);
     let fileshort = filename.substring(filename.lastIndexOf('/')+1);
     let stat = fse.statSync(filename);
@@ -67,7 +62,7 @@ const loadInComponentFile = (innerDirectory, fileInner) => {
             console.log("'%s' is a component to be processed.", filename);
             const nameOfFile = path.basename(fileshort, ".js");
             let resource = require("../" + innerDirectory + fileshort);
-            fullObj[nameOfFile] = resource;
+            fullObj[nameOfFile] = await resource;
         }
     }
     return fullObj;

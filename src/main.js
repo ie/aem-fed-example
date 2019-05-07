@@ -24,7 +24,6 @@ const Compiler = require('../node_modules/@adobe/htlengine/src/compiler/Compiler
  * @returns A promise that resolves to the evaluated code.
  */
 module.exports = async function main(resource, template, resourceFileName) {
-  resource = await resource;
   const compiler = new Compiler()
     .withOutputDirectory('.')
     .includeRuntime(true)

@@ -4,10 +4,9 @@ const fse = require('fs-extra');
 const devJson = true; // Move to .env file
 
 const extendJson = (obj, src) => {
-    // Need to fix this bug where same object is being carried everywhere
-    // let objNew = Object.assign ({}, obj);
-    Object.keys(src).forEach(function(key) { obj[key] = src[key]; });
-    return obj;
+    let objNew = Object.assign ({}, obj);
+    Object.keys(src).forEach(function(key) { objNew[key] = src[key]; });
+    return objNew;
 }
 
 const retrieveJsonData = async (jsonFilePath, jsonApiUrl) => {
