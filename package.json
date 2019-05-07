@@ -8,6 +8,8 @@
     "start": "node .",
     "serve": "node ./bin/www",
     "serve-debug": "DEBUG=myapp:* npm run serve",
+    "build": "webpack --progress --mode=production",
+    "watch": "webpack --progress --mode=development --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -30,6 +32,26 @@
     "pug": "2.0.0-beta11"
   },
   "devDependencies": {
-    "eslint": "^5.16.0"
+    "@babel/preset-env": "^7.4.4",
+    "babel-loader": "^8.0.5",
+    "babel-minify-webpack-plugin": "^0.3.1",
+    "browser-sync": "^2.26.5",
+    "browser-sync-webpack-plugin": "^2.2.2",
+    "css-loader": "^2.1.1",
+    "eslint": "^5.16.0",
+    "eslint-loader": "^2.1.2",
+    "mini-css-extract-plugin": "^0.6.0",
+    "node-sass": "^4.12.0",
+    "optimize-css-assets-webpack-plugin": "^5.0.1",
+    "postcss-loader": "^3.0.0",
+    "sass-loader": "^7.1.0",
+    "stylelint": "^10.0.1",
+    "stylelint-declaration-strict-value": "^1.1.3",
+    "stylelint-order": "^3.0.0",
+    "stylelint-scss": "^3.6.1",
+    "stylelint-webpack-plugin": "^0.10.5",
+    "webpack": "^4.30.0",
+    "webpack-cli": "^3.3.2",
+    "webpack-shell-plugin": "^0.5.0"
   }
 }

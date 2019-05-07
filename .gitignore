@@ -1,3 +1,6 @@
 node_modules/
 generated_html/
 jsoutput/
+public/dist/
+launch.json
+yarn-error.log
