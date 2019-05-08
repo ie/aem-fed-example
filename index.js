@@ -22,6 +22,10 @@ const srcHTLFolder = './test/templates/';
 const srcSpecFolder = './test/specs/';
 const jsOutputFolder = './jsoutput/';
 
+const { asyncForEach } = require('./src/helpers');
+
+// Full HTL section
+
 (async () => {
 
   fse.readdir(srcHTLFolder, async function (err, files) {
@@ -30,7 +34,7 @@ const jsOutputFolder = './jsoutput/';
       process.exit(1);
     }
   
-    files.forEach(async function (file, index) {
+    await asyncForEach(files, async (file, index) => {
       let filename = path.join(srcHTLFolder, file);
 
       // Previous implementation from Node CLI
@@ -40,7 +44,7 @@ const jsOutputFolder = './jsoutput/';
       let fileshort = filename.substring(filename.lastIndexOf('/')+1);
       let fileshorthtml = fileshort.replace(".htl", ".html");
       let resourceFile = fileshorthtml.replace(".html", ".js");
-      let resource = require(srcSpecFolder + resourceFile);
+      let resource = await require(srcSpecFolder + resourceFile);
 
       let template = await fse.readFile(filename, 'utf-8');
 
@@ -53,19 +57,17 @@ const jsOutputFolder = './jsoutput/';
         if (stat.isFile()) {
           console.log("'%s' is a file to be processed.", filename);
 
-          engine(resource, template, resourceFile).then((ret) => {
-            // eslint-disable-next-line no-console
+          let ret = await engine(resource, template, resourceFile);
             
-            const filenameOut = path.resolve(process.cwd(), './generated_html/' + fileshorthtml);
-            fse.writeFile(filenameOut, ret.body, 'utf-8');
+          const filenameOut = path.resolve(process.cwd(), './generated_html/' + fileshorthtml);
+          fse.writeFile(filenameOut, ret.body, 'utf-8');
 
-            // Remove generated javascript files
-            fse.unlinkSync(jsOutputFolder + resourceFile);
-            
-            // Optional output html to console
-            // console.log(ret.body);
-    
-          });
+          // Remove generated javascript files
+          fse.unlinkSync(jsOutputFolder + resourceFile);
+          
+          // Optional output html to console
+          // console.log(ret.body);
+  
         }
 
         else if (stat.isDirectory())
@@ -76,3 +78,4 @@ const jsOutputFolder = './jsoutput/';
   });
 
 })();
+
