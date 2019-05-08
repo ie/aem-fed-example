@@ -15,67 +15,75 @@ const path = require('path');
 // declared dependencies
 const fse = require('fs-extra');
 // local modules
-const engine = require('./src/main');
+const engine = require('./tools/main'),
 
-// Define src folders - should move to .env folder
-const srcHTLFolder = './test/templates/';
-const srcSpecFolder = './test/specs/';
-const jsOutputFolder = './jsoutput/';
+  // Define src folders - should move to .env folder
+  srcHTLFolder = './test/templates/',
+  srcSpecFolder = './test/specs/',
+  jsOutputFolder = './jsoutput/';
 
-const { asyncForEach } = require('./src/helpers');
+const { asyncForEach } = require('./tools/helpers'),
 
-// Full HTL section
+  // Full HTL section
 
-(async () => {
+  executeHtlParser = async () => {
 
-  fse.readdir(srcHTLFolder, async function (err, files) {
-    if (err) {
-      console.error("Could not list the directory.", err);
-      process.exit(1);
-    }
-  
-    await asyncForEach(files, async (file, index) => {
-      let filename = path.join(srcHTLFolder, file);
+    fse.readdir(srcHTLFolder, async function (err, files) {
+      if (err) {
+        console.error('Could not list the directory.', err);
+        process.exit(1);
+      }
 
-      // Previous implementation from Node CLI
-      // const filename = process.argv[2];
+      await asyncForEach(files, async (file, index) => {
+        let filename = path.join(srcHTLFolder, file),
 
-      // New implementation which loops through the test folder
-      let fileshort = filename.substring(filename.lastIndexOf('/')+1);
-      let fileshorthtml = fileshort.replace(".htl", ".html");
-      let resourceFile = fileshorthtml.replace(".html", ".js");
-      let resource = await require(srcSpecFolder + resourceFile);
+          // Previous implementation from Node CLI
+          // const filename = process.argv[2];
 
-      let template = await fse.readFile(filename, 'utf-8');
+          // New implementation which loops through the test folder
+          fileshort = filename.substring(filename.lastIndexOf('/') + 1),
+          fileshorthtml = fileshort.replace('.htl', '.html'),
+          resourceFile = fileshorthtml.replace('.html', '.js');
 
-      fse.stat(filename, async function (error, stat) {
-        if (error) {
-          console.error("Error stating file.", error);
-          return;
-        }
-  
-        if (stat.isFile()) {
-          console.log("'%s' is a file to be processed.", filename);
+        // The reason to delete is to allow hot reloading to also rebuild components
+        delete require.cache[require.resolve(srcSpecFolder + resourceFile)];
+        let resource = await require(srcSpecFolder + resourceFile);
 
-          let ret = await engine(resource, template, resourceFile);
-            
-          const filenameOut = path.resolve(process.cwd(), './generated_html/' + fileshorthtml);
-          fse.writeFile(filenameOut, ret.body, 'utf-8');
 
-          // Remove generated javascript files
-          fse.unlinkSync(jsOutputFolder + resourceFile);
-          
-          // Optional output html to console
-          // console.log(ret.body);
-  
-        }
+        template = await fse.readFile(filename, 'utf-8');
 
-        else if (stat.isDirectory())
-          console.log("'%s' is a directory to be skipped.", filename);
+        fse.stat(filename, async function (error, stat) {
+          if (error) {
+            console.error('Error stating file.', error);
+            return;
+          }
 
+          if (stat.isFile()) {
+            console.log("'%s' is a file to be processed.", filename);
+
+            let ret = await engine(resource, template, resourceFile);
+
+            const filenameOut = path.resolve(process.cwd(), './generated_html/' + fileshorthtml);
+            fse.writeFile(filenameOut, ret.body, 'utf-8');
+
+            // Remove generated javascript files
+            fse.unlinkSync(jsOutputFolder + resourceFile);
+
+            // Optional output html to console
+            // console.log(ret.body);
+
+          }
+
+          else if (stat.isDirectory())
+          {console.log("'%s' is a directory to be skipped.", filename);}
+
+        });
       });
     });
-  });
 
-})();
+  };
+
+module.exports = executeHtlParser;
+
+executeHtlParser();
 

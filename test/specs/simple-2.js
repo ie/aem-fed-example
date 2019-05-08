@@ -1,5 +1,5 @@
-const { extendJson, retrieveJsonData } = require('../../src/loadJsonData');
-const loadComponents = require('../../src/loadComponents');
+const { extendJson, retrieveJsonData } = require('../../tools/loadJsonData');
+const loadComponents = require('../../tools/loadComponents');
 
 const jsonFilePath = "test/specs/simple-2.json";
 const jsonApiUrl = null;
