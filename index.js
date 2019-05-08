@@ -43,8 +43,11 @@ const { asyncForEach } = require('./tools/helpers'),
           // New implementation which loops through the test folder
           fileshort = filename.substring(filename.lastIndexOf('/') + 1),
           fileshorthtml = fileshort.replace('.htl', '.html'),
-          resourceFile = fileshorthtml.replace('.html', '.js'),
-          resource = await require(srcSpecFolder + resourceFile);
+          resourceFile = fileshorthtml.replace('.html', '.js');
+
+        // The reason to delete is to allow hot reloading to also rebuild components
+        delete require.cache[require.resolve(srcSpecFolder + resourceFile)];
+        let resource = await require(srcSpecFolder + resourceFile);
 
 
         template = await fse.readFile(filename, 'utf-8');

@@ -17,6 +17,7 @@ const watcher = chokidar.watch('test/', {
 });
 
 const rebuildHTL = () => {
+  delete global.fullObj;
   executeHtlParser();
 };
 
