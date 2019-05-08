@@ -5,7 +5,6 @@ const MinifyPlugin = require('babel-minify-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const StyleLintPlugin = require('stylelint-webpack-plugin');
-const WebpackShellPlugin = require('webpack-shell-plugin');
 
 const finalJSOutput = 'dist/js/script.min.js';
 const finalCSSOutput = 'dist/css/style.min.css';
@@ -105,10 +104,6 @@ module.exports = (env, argv) => {
   // console.log(argv.mode);        // outputs development	
   if (argv.mode === 'development') {
   	config.plugins = [
-      new WebpackShellPlugin({
-        onBuildStart:['yarn start'],
-        // onBuildEnd:['echo "Webpack End"']
-      }),
       new MiniCssExtractPlugin({
         filename: finalCSSOutput
       }),

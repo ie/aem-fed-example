@@ -22,6 +22,10 @@ const engine = require('./tools/main'),
   srcSpecFolder = './test/specs/',
   jsOutputFolder = './jsoutput/';
 
+const { asyncForEach } = require('./tools/helpers');
+
+// Full HTL section
+
 (async () => {
 
   fse.readdir(srcHTLFolder, async function (err, files) {
@@ -29,7 +33,8 @@ const engine = require('./tools/main'),
       console.error('Could not list the directory.', err);
       process.exit(1);
     }
-    files.forEach(async function (file, index) {
+
+    await asyncForEach(files, async (file, index) => {
       let filename = path.join(srcHTLFolder, file),
 
         // Previous implementation from Node CLI
@@ -38,8 +43,8 @@ const engine = require('./tools/main'),
         // New implementation which loops through the test folder
         fileshort = filename.substring(filename.lastIndexOf('/') + 1),
         fileshorthtml = fileshort.replace('.htl', '.html'),
-        resourceFile = fileshorthtml.replace('.html', '.js');
-      let resource = require(srcSpecFolder + resourceFile);
+        resourceFile = fileshorthtml.replace('.html', '.js'),
+        resource = await require(srcSpecFolder + resourceFile);
 
 
       template = await fse.readFile(filename, 'utf-8');
@@ -53,19 +58,17 @@ const engine = require('./tools/main'),
         if (stat.isFile()) {
           console.log("'%s' is a file to be processed.", filename);
 
-          engine(resource, template, resourceFile).then((ret) => {
-            // eslint-disable-next-line no-console
+          let ret = await engine(resource, template, resourceFile);
 
-            const filenameOut = path.resolve(process.cwd(), './generated_html/' + fileshorthtml);
-            fse.writeFile(filenameOut, ret.body, 'utf-8');
+          const filenameOut = path.resolve(process.cwd(), './generated_html/' + fileshorthtml);
+          fse.writeFile(filenameOut, ret.body, 'utf-8');
 
-            // Remove generated javascript files
-            fse.unlinkSync(jsOutputFolder + resourceFile);
+          // Remove generated javascript files
+          fse.unlinkSync(jsOutputFolder + resourceFile);
 
-            // Optional output html to console
-            // console.log(ret.body);
+          // Optional output html to console
+          // console.log(ret.body);
 
-          });
         }
 
         else if (stat.isDirectory())
@@ -76,3 +79,4 @@ const engine = require('./tools/main'),
   });
 
 })();
+
