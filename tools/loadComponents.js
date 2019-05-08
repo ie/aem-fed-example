@@ -8,18 +8,19 @@ const srcComponentsFolder = './test/components/';
 
 const { asyncForEach } = require('./helpers');
 
-let fullObj;
+// Use global to allow hot reloading to also rebuild components
+global.fullObj;
 
 const loadComponents = async () => {
 
     return new Promise (function (resolve, reject) {
 
         // Make sure to load components only once
-        if (typeof fullObj !== 'undefined') {
-            return resolve (fullObj);
+        if (typeof global.fullObj !== 'undefined') {
+            return resolve (global.fullObj);
         }
 
-        fullObj = {};
+        global.fullObj = {};
         
         fse.readdir(srcComponentsFolder, async (err, files) => {
             if (err) {
@@ -37,7 +38,7 @@ const loadComponents = async () => {
                     await runThroughAllComponentDirs(file);
                 }
             });
-            resolve (fullObj);
+            resolve (global.fullObj);
         });
     });   
 
@@ -48,7 +49,7 @@ const runThroughAllComponentDirs = async (file) => {
       let innerDirectory = srcComponentsFolder + "/" + file + "/";
       let filesInner = fse.readdirSync(innerDirectory);
       await asyncForEach(filesInner, async (fileInner, index) => {
-          fullObj = await loadInComponentFile (innerDirectory, fileInner);
+        global.fullObj = await loadInComponentFile (innerDirectory, fileInner);
       });
 }
 

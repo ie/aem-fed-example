@@ -1,4 +1,4 @@
-const { retrieveJsonData } = require('../../../src/loadJsonData');
+const { retrieveJsonData } = require('../../../tools/loadJsonData');
 
 const jsonFilePath = "test/components/info2/info2.json";
 const jsonApiUrl = null;
