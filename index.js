@@ -15,7 +15,7 @@ const path = require('path');
 // declared dependencies
 const fse = require('fs-extra');
 // local modules
-const engine = require('./src/main'),
+const engine = require('./tools/main'),
 
   // Define src folders - should move to .env folder
   srcHTLFolder = './test/templates/',

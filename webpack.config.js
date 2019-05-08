@@ -12,7 +12,7 @@ const finalCSSOutput = 'dist/css/style.min.css';
 
 const config = {
 	  mode: 'development',
-	  entry: './css.js',
+	  entry: './tools/css.js',
       devtool: 'source-map',
       node: {
         fs: 'empty'
