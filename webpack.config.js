@@ -24,7 +24,10 @@ const config = {
 	    filename: finalJSOutput,
 	    // publicPath: './wpTheme',
 	    path: path.resolve(__dirname, 'public')
-	  },
+    },
+    watchOptions: {
+      ignored: ['./test/**/*.*'] // Let Express handle rebuilding
+    },
 	  module: {
 	    rules: [
         { 

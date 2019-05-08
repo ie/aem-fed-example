@@ -6,6 +6,27 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 
+const executeHtlParser = require('./');
+
+const chokidar = require('chokidar');
+
+const watcher = chokidar.watch('test/', {
+  ignored: /(^|[\/\\])\../,
+  ignoreInitial: true,
+  persistent: true
+});
+
+const rebuildHTL = () => {
+  executeHtlParser();
+};
+
+const log = console.log.bind(console);
+// Add event listeners.
+watcher
+  .on('add', path => { log(`CHOKIDAR: File ${path} has been added`); rebuildHTL(); })
+  .on('change', path => { log(`CHOKIDAR: File ${path} has been changed`); rebuildHTL(); })
+  .on('unlink', path => { log(`CHOKIDAR: File ${path} has been removed`); rebuildHTL(); });
+
 var app = express();
 
 // view engine setup
