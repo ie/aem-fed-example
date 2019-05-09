@@ -909,10 +909,9 @@ acorn@^6.0.5, acorn@^6.0.7:
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-6.1.1.tgz#7d25ae05bb8ad1f9b699108e1094ecd7884adc1f"
   integrity sha512-jPTiwtOxaHNaAPg/dmrJ/beuzLRnXtB0kQPQ8JpotKJgTB6rX6c8mlf315941pyjBSaPg8NHXS9fhP4u17DpGA==
 
-aem-clientlib-generator@^1.4.1:
+"aem-clientlib-generator@https://github.com/ie/aem-clientlib-generator.git#v1.4.3":
   version "1.4.1"
-  resolved "https://registry.yarnpkg.com/aem-clientlib-generator/-/aem-clientlib-generator-1.4.1.tgz#34354d82a7b698de5139bfdee3dc915ed34e902b"
-  integrity sha512-Z+gYBbSWWmJAiNdbLwfziLSrOxWNASpeBWl1S/i9BzbYDEby58DLDfK0ylh2Pd/Hj2KAew7QcBWomhS7bQhBUA==
+  resolved "https://github.com/ie/aem-clientlib-generator.git#88206eca7e73bd3e418c2518eb8562d8db9f5947"
   dependencies:
     async "^2.4.0"
     fs-extra "^3.0.1"

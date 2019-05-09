@@ -25,7 +25,7 @@ module.exports = {
 
     libs: [{
             name: "info",
-            path: path.resolve(__dirname, "test", "components", "info", "clientlibs"),
+            outputPath: path.resolve(__dirname, "test", "components", "info", "clientlibs"),
             cssProcessor: ["default:none", "min:none"], // disable minification for CSS
             jsProcessor: ["default:none", "min:gcc"], // using google closure compiler instead of YUI,
             allowProxy: true,
@@ -55,7 +55,7 @@ module.exports = {
         },
         {
             name: "info2",
-            path: path.resolve(__dirname, "test", "components", "info2", "clientlibs"),
+            outputPath: path.resolve(__dirname, "test", "components", "info2", "clientlibs"),
             cssProcessor: ["default:none", "min:none"], // disable minification for CSS
             jsProcessor: ["default:none", "min:gcc"], // using google closure compiler instead of YUI,
             allowProxy: true,
