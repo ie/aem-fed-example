@@ -6,7 +6,7 @@ var clientlib = require("../lib/clientlib");
 var path = require("path");
 var fs = require("fs");
 var yargs = require("yargs")
-  .usage("aem-clientlib-generator " + require("../package.json").version + "\n" +
+  .usage("aem-clientlib-generator " + require("../../package.json").version + "\n" +
     "Usage with config file: clientlib [path] [options]" + "\n\n" +
     "Default config path: " + DEFAULT_FILE);
 

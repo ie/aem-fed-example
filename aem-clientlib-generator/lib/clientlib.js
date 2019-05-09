@@ -357,16 +357,20 @@ function normalizeAssets(clientLibPath, assets) {
  */
 function processItem(item, options, processDone) {
 
-  if (!item.path) {
-    item.path = options.clientLibRoot;
-  }
+  // if (!item.path) {
+  //   item.path = options.clientLibRoot;
+  // }
 
   options.verbose && console.log("\n\nprocessing clientlib: " + item.name);
 
   // remove current files if exists
   removeClientLib(item, function (err) {
 
-    var clientLibPath = path.join(item.path, item.name);
+    var clientLibPath = path.join(options.clientLibRoot, item.name);
+
+    if (item.path) {
+      clientLibPath = path.join(item.path);
+    }
 
     // create clientlib directory
     fse.mkdirsSync(clientLibPath);
