@@ -130,6 +130,7 @@ The HTML file will then be available on the local server, eg.
 
 http://localhost:3000/simple.html
 
+
 ### Client Libs
 
 Client libs are stored in the folder clientlib-src/
@@ -149,3 +150,17 @@ This is because the client libs requires this file which seems to be a file gene
 Once set up, this should be the way to include the items to proceed further
 https://gist.github.com/yupadhyay/a7348e7fbf98590f176c
 
+
+### TO DO
+
+1. Adding SCSS support
+2. Client libs
+3. Hot reloading when files change
+4. Resolve all eslint errors
+5. Example BEM styling on a component
+6. Add React to a component
+7. Add Typescript support
+
+### Resources
+
+[HTL Specification and Syntax](https://github.com/adobe/htl-spec/blob/master/SPECIFICATION.md)
