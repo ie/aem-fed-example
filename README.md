@@ -133,10 +133,14 @@ http://localhost:3000/simple.html
 
 ### TO DO
 
-Adding SCSS support
+1. Adding SCSS support
+1. Client libs
+1. Hot reloading when files change
+1. Resolve all eslint errors
+1. Example BEM styling on a component
+1. Add React to a component
+1. Add Typescript support
 
-Client libs
+### Resources
 
-Hot reloading when files change
-
-Resolve all eslint errors
+[HTL Specification and Syntax](https://github.com/adobe/htl-spec/blob/master/SPECIFICATION.md)

@@ -62,7 +62,8 @@ const loadInComponentFile = async (innerDirectory, fileInner) => {
         if (path.extname(fileshort) === ".js") {
             console.log("'%s' is a component to be processed.", filename);
             const nameOfFile = path.basename(fileshort, ".js");
-            let resource = require("../" + innerDirectory + fileshort);
+            let temp = path.normalize('../' + fileshort);
+            let resource = require(temp);
             fullObj[nameOfFile] = await resource;
         }
     }

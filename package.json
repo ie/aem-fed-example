@@ -4,10 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "init-folders": "node ./src/initFolders",
+    "init-folders": "node ./tools/initFolders",
     "start": "node .",
     "serve": "node ./bin/www",
-    "serve-debug": "DEBUG=myapp:* npm run serve",
+    "serve-debug": "SET \"DEBUG=myapp:*\" && npm run serve",
     "build": "webpack --progress --mode=production",
     "watch": "webpack --progress --mode=development --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
