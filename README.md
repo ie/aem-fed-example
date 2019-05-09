@@ -130,6 +130,13 @@ The HTML file will then be available on the local server, eg.
 
 http://localhost:3000/simple.html
 
+### Client Libs
+
+This should be the way to include the items
+
+https://gist.github.com/yupadhyay/a7348e7fbf98590f176c
+
+The file /libs/granite/sightly/templates/clientlib.html is missing
 
 ### TO DO
 

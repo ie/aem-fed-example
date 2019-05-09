@@ -21,11 +21,11 @@ var path = require("path");
 module.exports = {
 
     context: __dirname,
-    clientLibRoot: path.resolve(__dirname, "test", "components-clientlibs"),
+    clientLibRoot: path.resolve(__dirname, "test", "components"),
 
     libs: [{
             name: "info",
-            outputPath: path.resolve(__dirname, "test", "components", "info", "clientlib"),
+            path: path.resolve(__dirname, "test", "components", "info", "clientlibs"),
             cssProcessor: ["default:none", "min:none"], // disable minification for CSS
             jsProcessor: ["default:none", "min:gcc"], // using google closure compiler instead of YUI,
             allowProxy: true,
@@ -47,12 +47,15 @@ module.exports = {
                 css: [
                     "test/clientlib-src/css/styling.css",
                     "test/clientlib-src/css/lib.css"
+                ],
+                resources: [
+                    "test/clientlib-src/resources/template.html"
                 ]
             }
         },
         {
             name: "info2",
-            outputPath: path.resolve(__dirname, "test", "components-clientlibs", "info2", "clientlib"),
+            path: path.resolve(__dirname, "test", "components", "info2", "clientlibs"),
             cssProcessor: ["default:none", "min:none"], // disable minification for CSS
             jsProcessor: ["default:none", "min:gcc"], // using google closure compiler instead of YUI,
             allowProxy: true,
@@ -66,6 +69,9 @@ module.exports = {
                 css: [
                     "test/clientlib-src/css/styling.css",
                     "test/clientlib-src/css/lib.css"
+                ],
+                resources: [
+                    "test/clientlib-src/resources/template.html"
                 ]
             }
         }

@@ -2,7 +2,6 @@ node_modules/
 generated_html/
 jsoutput/
 public/dist/
-components-clientlibs/
 launch.json
 yarn-error.log
 

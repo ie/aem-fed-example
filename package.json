@@ -7,9 +7,10 @@
     "init-folders": "node ./tools/initFolders",
     "start": "node .",
     "serve": "node ./bin/www",
-    "serve-debug": "DEBUG=myapp:* npm run serve",
+    "serve-debug": "DEBUG=myapp:* yarn serve",
     "build": "webpack --progress --mode=production",
     "watch": "webpack --progress --mode=development --watch",
+    "clientlibs": "node aem-clientlib-generator/bin/clientlib-cli.js clientlib.config.js --verbose",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
