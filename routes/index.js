@@ -3,8 +3,8 @@ const path = require('path');
 // declared dependencies
 const fse = require('fs-extra');
 
-var express = require('express');
-var router = express.Router();
+var express = require('express'),
+  router = express.Router();
 
 const getGeneratedHtml = () => {
   const srcGeneratedHtmlFolder = './generated_html';
@@ -25,7 +25,7 @@ router.get('/', function(req, res, next) {
 
 /* GET specific page generated */
 router.get('/:htmlName', function(req, res, next) {
-  res.sendFile(req.params.htmlName, {root: path.normalize(__dirname + "/../generated_html")});
+  res.sendFile(req.params.htmlName, {root: path.normalize(__dirname + '/../generated_html')});
 });
 
 module.exports = router;

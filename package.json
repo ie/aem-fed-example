@@ -4,7 +4,6 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "init-folders": "node ./tools/initFolders",
     "start": "npm-run-all --parallel serve-debug watch",
     "node": "node .",
     "serve": "node ./bin/www",
