@@ -55,14 +55,12 @@ const runThroughAllComponentDirs = async (file) => {
 
 const loadInComponentFile = async (innerDirectory, fileInner) => {
     let filename = path.join(innerDirectory, fileInner);
-    let fileshort = filename.substring(filename.lastIndexOf('/')+1);
     let stat = fse.statSync(filename);
 
     if (stat.isFile()) {
-        if (path.extname(fileshort) === ".js") {
-            console.log("'%s' is a component to be processed.", filename);
-            const nameOfFile = path.basename(fileshort, ".js");
-            let resource = require(path.normalize('../' + innerDirectory + fileshort));
+        if (path.extname(filename) === ".js") {
+            const nameOfFile = path.basename(filename, ".js");
+            let resource = require(path.normalize(__dirname + '/../' + filename));
             fullObj[nameOfFile] = await resource;
         }
     }
