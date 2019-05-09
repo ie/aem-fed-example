@@ -44,7 +44,12 @@ const { asyncForEach } = require('./tools/helpers'),
         let resourceFile = file.replace('.htl', '.js');
         let resourceFileFullPath = srcSpecFolder + resourceFile;
         // The reason to delete is to allow hot reloading to also rebuild components
-        delete require.cache[require.resolve('./' + resourceFileFullPath)];
+
+        // This line causes webpack to run into memory heap issues
+        // delete require.cache[require.resolve('./' + resourceFileFullPath)]; 
+        
+        delete require.cache[require.resolve(srcSpecFolder + resourceFile)];
+
         let resource =  await require(resourceFileFullPath);
         let template = await fse.readFile(filename, 'utf-8');
         fse.stat(filename, async function (error, stat) {
