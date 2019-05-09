@@ -16,6 +16,7 @@ const config = {
       node: {
         fs: 'empty'
       },
+    target: 'node',
     // devtool: 'cheap-module-eval-source-map', // supposed to be fastest but doesnt work
 	  output: {
       // If within normal JS framework environment,
@@ -90,12 +91,12 @@ const config = {
                 presets: ['@babel/preset-env']
               }
             },
-            {
-              loader: 'eslint-loader',
-              options: {
-                fix: true
-              }
-            }
+            // {
+              // loader: 'eslint-loader',
+              // options: {
+                // fix: true
+              // }
+            // }
           ]
         }
 	    ],
