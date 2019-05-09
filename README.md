@@ -106,8 +106,6 @@ yarn init-folders
 
 Run Express and Webpack with Live Reload
 
-Debug mode
-
 ```bash
 yarn start
 ```
@@ -116,8 +114,9 @@ Go to http://localhost:3000/
 ### Production
 
 ```bash
-npm run serve
+yarn serve
 ```
+Go to http://localhost:1234/
 
 ### TO DO
 

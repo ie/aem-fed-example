@@ -29,10 +29,10 @@ const loadComponents = async () => {
             }
             // Loop through all components 
             await asyncForEach(files, async (file, index) => {
-                let filename = path.join(srcComponentsFolder, file);
-                let stat = fse.statSync(filename);
+                let filepath = path.join(srcComponentsFolder, file);
+                let stat = fse.statSync(filepath);
                 if (stat.isFile()) {
-                    console.log("'%s' is a file and will be skipped because it should be in a folder.", filename);  
+                    console.log("'%s' is a file and will be skipped because it should be in a folder.", filepath);  
                 }
                 else if (stat.isDirectory()) {
                     await runThroughAllComponentDirs(file);
@@ -59,6 +59,7 @@ const loadInComponentFile = async (innerDirectory, fileInner) => {
 
     if (stat.isFile()) {
         if (path.extname(filename) === ".js") {
+            console.log("'%s' is a component to be processed.", filename);
             const nameOfFile = path.basename(filename, ".js");
             let resource = require(path.normalize(__dirname + '/../' + filename));
             fullObj[nameOfFile] = await resource;

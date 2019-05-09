@@ -36,18 +36,10 @@ const { asyncForEach } = require('./tools/helpers'),
       await asyncForEach(files, async (file, index) => {
         
         let filename = path.join(__dirname, srcHTLFolder, file);
-        // Previous implementation from Node CLI
-        // const filename = process.argv[2];
-        // New implementation which loops through the test folder
-        //let fileshort = filename.substring(filename.lastIndexOf('/') + 1);
         let fileshorthtml = file.replace('.htl', '.html');
         let resourceFile = file.replace('.htl', '.js');
         let resourceFileFullPath = srcSpecFolder + resourceFile;
         // The reason to delete is to allow hot reloading to also rebuild components
-
-        // This line causes webpack to run into memory heap issues
-        // delete require.cache[require.resolve('./' + resourceFileFullPath)]; 
-        
         delete require.cache[require.resolve(srcSpecFolder + resourceFile)];
 
         let resource =  await require(resourceFileFullPath);
