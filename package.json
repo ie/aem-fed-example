@@ -5,10 +5,10 @@
   "main": "index.js",
   "scripts": {
     "init-folders": "node ./tools/initFolders",
-    "start": "npm-run-all --parallel node serve-debug watch",
+    "start": "npm-run-all --parallel serve-debug watch",
     "node": "node .",
     "serve": "node ./bin/www",
-    "serve-debug": "SET \"DEBUG=myapp:*\" && npm run serve",
+    "serve-debug": "cross-env DEBUG=myapp:* && npm run serve",
     "build": "webpack --progress --mode=production",
     "watch": "webpack --progress --mode=development --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -27,6 +27,7 @@
     "@adobe/htlengine": "^2.1.6",
     "chokidar": "^3.0.0",
     "cookie-parser": "~1.4.3",
+    "cross-env": "^5.2.0",
     "debug": "~2.6.9",
     "express": "~4.16.0",
     "http-errors": "~1.6.2",

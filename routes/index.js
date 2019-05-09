@@ -10,9 +10,7 @@ const getGeneratedHtml = () => {
   const srcGeneratedHtmlFolder = './generated_html';
   let allGeneratedHtml = [];
   fse.readdirSync(srcGeneratedHtmlFolder).forEach(async (file) => {
-    let filename = path.join(srcGeneratedHtmlFolder, file);
-    let fileshort = filename.substring(filename.lastIndexOf('/') + 1);
-    allGeneratedHtml.push(fileshort);
+    allGeneratedHtml.push(file);
   });
   return allGeneratedHtml;
 };
@@ -27,7 +25,7 @@ router.get('/', function(req, res, next) {
 
 /* GET specific page generated */
 router.get('/:htmlName', function(req, res, next) {
-  res.sendFile(req.params.htmlName, {root: __dirname + "/../generated_html"});
+  res.sendFile(req.params.htmlName, {root: path.normalize(__dirname + "/../generated_html")});
 });
 
 module.exports = router;
