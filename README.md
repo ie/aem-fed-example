@@ -88,7 +88,7 @@ module.exports = new Promise(async (resolve) => {
 });
 ~~~~
 
-### To Start
+### To Setup
 
 Install packages with Yarn
 
@@ -102,34 +102,22 @@ Set up folders required (or can manually create generated_html/ and jsoutput/)
 yarn init-folders
 ```
 
-### Express
+### Development
 
-Run Express in a separate terminal to be able to view the files in the browser
+Run Express and Webpack with Live Reload
 
 Debug mode
 
 ```bash
-npm run serve-debug
+yarn start
 ```
+Go to http://localhost:3000/
 
-Production mode
+### Production
 
 ```bash
 npm run serve
 ```
-
-### To Run
-
-Sample Run to generate html versions
-
-```bash
-yarn start
-```
-
-The HTML file will then be available on the local server, eg.
-
-http://localhost:3000/simple.html
-
 
 ### TO DO
 
