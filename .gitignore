@@ -1,7 +1,7 @@
 node_modules/
 generated_html/
 jsoutput/
-public/dist/
+public/
 launch.json
 yarn-error.log
 

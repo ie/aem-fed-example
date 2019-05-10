@@ -55,9 +55,9 @@ const fse = require('fs-extra'),
       stat = fse.statSync(filename);
 
     if (stat.isFile()) {
-      if (path.extname(filename) === '.js') {
+      if (fileInner.endsWith('.data.js')) {
         console.log("'%s' is a component to be processed.", filename);
-        const nameOfFile = path.basename(filename, '.js');
+        const nameOfFile = path.basename(filename, '.data.js');
         let resource = require(path.normalize(__dirname + '/../' + filename));
         global.fullObj[nameOfFile] = await resource;
       }
