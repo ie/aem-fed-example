@@ -88,7 +88,7 @@ module.exports = new Promise(async (resolve) => {
 });
 ~~~~
 
-### To Start
+### To Setup
 
 Install packages with Yarn
 
@@ -96,47 +96,32 @@ Install packages with Yarn
 yarn install
 ```
 
-Set up folders required (or can manually create generated_html/ and jsoutput/)
+### Development
 
-```bash
-yarn init-folders
-```
-
-### Express
-
-Run Express in a separate terminal to be able to view the files in the browser
-
-Debug mode
-
-```bash
-npm run serve-debug
-```
-
-Production mode
-
-```bash
-npm run serve
-```
-
-### To Run
-
-Sample Run to generate html versions
+Run Express and Webpack with Live Reload
 
 ```bash
 yarn start
 ```
+Go to http://localhost:3000/
 
-The HTML file will then be available on the local server, eg.
+### Production
 
-http://localhost:3000/simple.html
-
+```bash
+yarn serve
+```
+Go to http://localhost:1234/
 
 ### TO DO
 
-Adding SCSS support
+1. Adding SCSS support
+1. Client libs
+1. Hot reloading when files change
+1. Resolve all eslint errors
+1. Example BEM styling on a component
+1. Add React to a component
+1. Add Typescript support
 
-Client libs
+### Resources
 
-Hot reloading when files change
-
-Resolve all eslint errors
+[HTL Specification and Syntax](https://github.com/adobe/htl-spec/blob/master/SPECIFICATION.md)
