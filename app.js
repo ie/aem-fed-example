@@ -8,20 +8,20 @@ var indexRouter = require('./routes/index');
 
 const executeHtlParser = require('./');
 
-const chokidar = require('chokidar');
+const chokidar = require('chokidar'),
 
-const watcher = chokidar.watch('test/', {
-  ignored: /(^|[\/\\])\../,
-  ignoreInitial: true,
-  persistent: true
-});
+  watcher = chokidar.watch('test/', {
+    ignored: /(^|[\/\\])\../,
+    ignoreInitial: true,
+    persistent: true
+  }),
 
-const rebuildHTL = () => {
-  delete global.fullObj;
-  executeHtlParser();
-};
+  rebuildHTL = () => {
+    delete global.fullObj;
+    executeHtlParser();
+  },
 
-const log = console.log.bind(console);
+  log = console.log.bind(console);
 // Add event listeners.
 watcher
   .on('add', path => { log(`CHOKIDAR: File ${path} has been added`); rebuildHTL(); })

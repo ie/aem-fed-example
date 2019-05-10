@@ -16,53 +16,47 @@ const path = require('path');
 const fse = require('fs-extra');
 // local modules
 const engine = require('./tools/main'),
+  { asyncForEach } = require('./tools/helpers'),
+  initFolders = require('./tools/initFolders'),
 
   // Define src folders - should move to .env folder
   srcHTLFolder = './test/templates/',
   srcSpecFolder = './test/specs/',
-  jsOutputFolder = './jsoutput/';
-
-const { asyncForEach } = require('./tools/helpers'),
+  jsOutputFolder = './jsoutput/',
 
   // Full HTL section
 
   executeHtlParser = async () => {
 
-    fse.readdir(srcHTLFolder, async function (err, files) {
+    initFolders();
+
+    fse.readdir(srcHTLFolder, async (err, files) => {
       if (err) {
         console.error('Could not list the directory.', err);
         process.exit(1);
       }
-
-      await asyncForEach(files, async (file, index) => {
-        let filename = path.join(srcHTLFolder, file),
-
-          // Previous implementation from Node CLI
-          // const filename = process.argv[2];
-
-          // New implementation which loops through the test folder
-          fileshort = filename.substring(filename.lastIndexOf('/') + 1),
-          fileshorthtml = fileshort.replace('.htl', '.html'),
-          resourceFile = fileshorthtml.replace('.html', '.js');
+      await asyncForEach(files, async (file) => {
 
         // The reason to delete is to allow hot reloading to also rebuild components
-        delete require.cache[require.resolve(srcSpecFolder + resourceFile)];
-        let resource = await require(srcSpecFolder + resourceFile);
 
 
-        template = await fse.readFile(filename, 'utf-8');
+        let filename = path.join(__dirname, srcHTLFolder, file),
+          fileshorthtml = file.replace('.htl', '.html'),
+          resourceFile = file.replace('.htl', '.js'),
+          resourceFileFullPath = srcSpecFolder + resourceFile;
 
-        fse.stat(filename, async function (error, stat) {
+        delete require.cache[require.resolve(resourceFileFullPath)];
+        const resource =  await require(resourceFileFullPath),
+          template = await fse.readFile(filename, 'utf-8');
+        fse.stat(filename, async (error, stat) => {
           if (error) {
             console.error('Error stating file.', error);
-            return;
+            process.exit(1);
           }
 
           if (stat.isFile()) {
-            console.log("'%s' is a file to be processed.", filename);
-
+            console.log("'%s' is a template to be processed.", filename);
             let ret = await engine(resource, template, resourceFile);
-
             const filenameOut = path.resolve(process.cwd(), './generated_html/' + fileshorthtml);
             fse.writeFile(filenameOut, ret.body, 'utf-8');
 

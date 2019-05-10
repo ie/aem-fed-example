@@ -25,14 +25,12 @@ const Compiler = require('../node_modules/@adobe/htlengine/src/compiler/Compiler
  */
 module.exports = async function main(resource, template, resourceFileName) {
   const compiler = new Compiler()
-    .withOutputDirectory('.')
-    .includeRuntime(true)
-    .withRuntimeVar(Object.keys(resource))
-    .withSourceMap(true);
-
-  let code = await compiler.compileToString(template);
-
-  const filename = path.resolve(process.cwd(), './jsoutput/' + resourceFileName);
+      .withOutputDirectory('.')
+      .includeRuntime(true)
+      .withRuntimeVar(Object.keys(resource))
+      .withSourceMap(true),
+    code = await compiler.compileToString(template),
+    filename = path.resolve(process.cwd(), './jsoutput/' + resourceFileName);
   await fse.writeFile(filename, code, 'utf-8');
 
   delete require.cache[require.resolve(filename)];

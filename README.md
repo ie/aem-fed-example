@@ -88,7 +88,7 @@ module.exports = new Promise(async (resolve) => {
 });
 ~~~~
 
-### To Start
+### To Setup
 
 Install packages with Yarn
 
@@ -96,40 +96,21 @@ Install packages with Yarn
 yarn install
 ```
 
-Set up folders required (or can manually create generated_html/ and jsoutput/)
+### Development
+
+Run Express and Webpack with Live Reload
 
 ```bash
-yarn init-folders
+yarn start
 ```
+Go to http://localhost:3000/
 
-### Express
-
-Run Express in a separate terminal to be able to view the files in the browser
-
-Debug mode
-
-```bash
-yarn serve-debug
-```
-
-Production mode
+### Production
 
 ```bash
 yarn serve
 ```
-
-### Webpack Hot Reload
-
-Sample Run to generate html versions
-
-```bash
-yarn watch
-```
-
-The HTML file will then be available on the local server, eg.
-
-http://localhost:3000/simple.html
-
+Go to http://localhost:1234/
 
 ### Client Libs
 
