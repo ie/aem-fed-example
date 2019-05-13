@@ -1,17 +1,48 @@
 // webpack.config.js
 const path = require('path');
+const glob = require('glob');
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 const MinifyPlugin = require('babel-minify-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const StyleLintPlugin = require('stylelint-webpack-plugin'),
 
-  finalJSOutput = 'dist/js/script.min.js',
-  finalCSSOutput = 'dist/css/style.min.css',
+  finalCSSOutput = 'dist/css/style.min.css';
 
-  config = {
+const globArrayScss = glob.sync('./test/components/*/*.scss');
+
+let entryObjectScss = {};
+
+if (globArrayScss.length > 0) {
+  entryObjectScss = globArrayScss.reduce((acc, item) => {
+    const name = path.normalize(path.dirname(item) + "/" + path.basename(item, ".scss"));
+    acc[name+"-css"] = item;
+    return acc;
+  }, {});
+}
+
+const globArrayJs = glob.sync('./test/components/*/*.js', {ignore: ['./test/components/*/*.data.js']});
+
+let entryObjectJs = {};
+
+if (globArrayJs.length > 0) {
+  entryObjectJs = globArrayJs.reduce((acc, item) => {
+    const name = path.normalize(path.dirname(item) + "/" + path.basename(item, ".js"));
+    acc[name+"-js"] = item;
+    return acc;
+  }, {});
+}
+
+let entryObjectsOthers = {
+  tools: './tools/watch.js',
+  app: './tools/app.js',
+}
+
+const entryObject = {...entryObjectScss, ...entryObjectJs, ...entryObjectsOthers };
+
+const config = {
 	  mode: 'development',
-	  entry: './tools/watch.js',
+	  entry: entryObject,
     devtool: 'source-map',
     node: {
       fs: 'empty'
@@ -22,12 +53,12 @@ const StyleLintPlugin = require('stylelint-webpack-plugin'),
     // If within normal JS framework environment,
     // use this to autogenerate hash
     // filename: '[name].[chunkhash].js'
-	    filename: finalJSOutput,
+	    filename: '[name].js',
 	    // publicPath: './wpTheme',
 	    path: path.resolve(__dirname, 'public')
     },
     watchOptions: {
-      ignored: ['./test/**/*.*'] // Let Express handle rebuilding
+      // ignored: ['./test/'] // Let Express handle rebuilding
     },
 	  module: {
 	    rules: [
@@ -109,7 +140,7 @@ module.exports = (env, argv) => {
   if (argv.mode === 'development') {
   	config.plugins = [
       new MiniCssExtractPlugin({
-        filename: finalCSSOutput
+        filename: '[name].css'
       }),
       new StyleLintPlugin({
         configFile: '.stylelintrc'
@@ -137,7 +168,7 @@ module.exports = (env, argv) => {
         // If within normal JS framework environment,
         // use this to autogenerate hash
         // filename: 'style.[contenthash].css',
-        filename: finalCSSOutput
+        filename: '[name].css'
       }),
       new OptimizeCSSAssetsPlugin({}),
       new MinifyPlugin()

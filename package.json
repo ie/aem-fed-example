@@ -7,9 +7,10 @@
     "start": "npm-run-all --parallel serve-debug watch",
     "node": "node .",
     "serve": "node ./bin/www",
-    "serve-debug": "cross-env DEBUG=myapp:* && npm run serve",
+    "serve-debug": "cross-env DEBUG=myapp:* && yarn serve",
     "build": "webpack --progress --mode=production",
     "watch": "webpack --progress --mode=development --watch",
+    "clientlibs": "node node_modules/aem-clientlib-generator/bin/clientlib-cli.js clientlib.config.js --verbose",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -24,6 +25,7 @@
   "homepage": "https://github.com/ie/aem-fed-example#readme",
   "dependencies": {
     "@adobe/htlengine": "^2.1.6",
+    "aem-clientlib-generator": "https://github.com/ie/aem-clientlib-generator.git#v1.4.3",
     "chokidar": "^3.0.0",
     "cookie-parser": "~1.4.3",
     "cross-env": "^5.2.0",

@@ -9,7 +9,7 @@
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
-    <link rel="stylesheet" href="/dist/css/style.min.css"/>
+    <link rel="stylesheet" href="/app.css"/>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- Leave those next 4 lines if you care about users using IE8 -->
@@ -20,7 +20,9 @@
 </head>
 <body>
 
-<h1>${properties.title} ${name} - Second Template</h1>
+<div class="header">
+    <h1 class="header--main-info-2">${properties.title} ${name} - Second Template</h1>
+</div>
 
 <div data-sly-use.lib="./test/components/info2/info2.htl" data-sly-call="${lib.info2 @ info2=info2}"></div>
 
@@ -31,5 +33,6 @@
 <!-- Including Bootstrap JS (with its jQuery dependency) so that dynamic components work -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/app.js"></script>
 </body>
 </html>
