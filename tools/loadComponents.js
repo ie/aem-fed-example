@@ -43,7 +43,7 @@ const fse = require('fs-extra'),
   },
 
   runThroughAllComponentDirs = async (file) => {
-    let innerDirectory = srcComponentsFolder + '/' + file + '/',
+    let innerDirectory = srcComponentsFolder + '/' + file + '/dev/',
       filesInner = fse.readdirSync(innerDirectory);
     await asyncForEach(filesInner, async (fileInner) => {
       global.fullObj = await loadInComponentFile (innerDirectory, fileInner);
