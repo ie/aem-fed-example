@@ -10,7 +10,7 @@ const webpack = require('webpack');
 
 const globArrayScss = glob.sync('./test/components/*/dev/*.scss');
 
-let entryObjectScss = {};
+let entryObjectScss = {}, masterCss = {};
 
 if (globArrayScss.length > 0) {
   entryObjectScss = globArrayScss.reduce((acc, item) => {
@@ -18,11 +18,12 @@ if (globArrayScss.length > 0) {
     acc[name+"-css"] = item;
     return acc;
   }, {});
+  masterCss = globArrayScss;
 }
 
 const globArrayJs = glob.sync('./test/components/*/dev/*.js', {ignore: ['./test/components/*/dev/*.data.js']});
 
-let entryObjectJs = {};
+let entryObjectJs = {}, masterJs = {};
 
 if (globArrayJs.length > 0) {
   entryObjectJs = globArrayJs.reduce((acc, item) => {
@@ -30,6 +31,7 @@ if (globArrayJs.length > 0) {
     acc[name+"-js"] = item;
     return acc;
   }, {});
+  masterJs = globArrayJs;
 }
 
 let entryObjectsOthers = {
@@ -37,7 +39,7 @@ let entryObjectsOthers = {
   app: './tools/app.js',
 }
 
-const entryObject = {...entryObjectScss, ...entryObjectJs, ...entryObjectsOthers };
+const entryObject = {...entryObjectScss, ...entryObjectJs, ...entryObjectsOthers, masterCss, masterJs };
 
 const config = {
 	  mode: 'development',
