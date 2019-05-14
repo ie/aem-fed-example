@@ -112,24 +112,6 @@ const config = {
               }
             }
           ]
-        },
-        {
-          test: /\.js$/,
-          exclude: /node_modules/,
-          use: [
-            {
-              loader: 'babel-loader',
-              options: {
-                presets: ['@babel/preset-env']
-              }
-            },
-            {
-              loader: 'eslint-loader',
-              options: {
-                fix: true
-              }
-            }
-          ]
         }
 	    ]
 	  }
@@ -139,6 +121,24 @@ const config = {
 module.exports = (env, argv) => {
   // console.log(argv.mode);        // outputs development
   if (argv.mode === 'development') {
+    config.module.rules.push({
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: 'babel-loader',
+            options: {
+              presets: ['@babel/preset-env']
+            }
+          },
+          {
+            loader: 'eslint-loader',
+            options: {
+              fix: true
+            }
+          }
+        ]
+    });
   	config.plugins = [
       new webpack.IgnorePlugin(/jsdom$/),
       new MiniCssExtractPlugin({
@@ -158,7 +158,7 @@ module.exports = (env, argv) => {
   }
 
   if (argv.mode === 'production') {
-  	config.mode = 'production';
+    config.mode = 'production';
     config.devtool = false,
     config.optimization = {
       minimizer: [

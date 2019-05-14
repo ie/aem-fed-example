@@ -114,6 +114,12 @@ Go to http://localhost:3000/
 
 ### Production
 
+Compile and minify all
+```bash
+yarn build
+```
+
+View currently generated html without linting and hot reloading (rebuilds to JSON changes)
 ```bash
 yarn serve
 ```

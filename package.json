@@ -8,7 +8,7 @@
     "node": "node .",
     "serve": "node ./bin/www",
     "serve-debug": "cross-env DEBUG=myapp:* && yarn serve",
-    "build": "webpack --progress --mode=production",
+    "build": "node . && yarn clientlibs && webpack --progress --mode=production",
     "watch": "webpack --progress --mode=development --watch",
     "clientlibs": "node node_modules/aem-clientlib-generator/bin/clientlib-cli.js clientlib.config.js --verbose",
     "test": "echo \"Error: no test specified\" && exit 1"
