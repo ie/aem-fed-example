@@ -5,11 +5,10 @@ const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 const MinifyPlugin = require('babel-minify-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-const StyleLintPlugin = require('stylelint-webpack-plugin'),
+const StyleLintPlugin = require('stylelint-webpack-plugin');
+const webpack = require('webpack');
 
-  finalCSSOutput = 'dist/css/style.min.css';
-
-const globArrayScss = glob.sync('./test/components/*/*.scss');
+const globArrayScss = glob.sync('./test/components/*/dev/*.scss');
 
 let entryObjectScss = {};
 
@@ -21,7 +20,7 @@ if (globArrayScss.length > 0) {
   }, {});
 }
 
-const globArrayJs = glob.sync('./test/components/*/*.js', {ignore: ['./test/components/*/*.data.js']});
+const globArrayJs = glob.sync('./test/components/*/dev/*.js', {ignore: ['./test/components/*/dev/*.data.js']});
 
 let entryObjectJs = {};
 
@@ -139,6 +138,7 @@ module.exports = (env, argv) => {
   // console.log(argv.mode);        // outputs development
   if (argv.mode === 'development') {
   	config.plugins = [
+      new webpack.IgnorePlugin(/jsdom$/),
       new MiniCssExtractPlugin({
         filename: '[name].css'
       }),
@@ -164,6 +164,7 @@ module.exports = (env, argv) => {
       ]
     };
     config.plugins = [
+      new webpack.IgnorePlugin(/jsdom$/),
       new MiniCssExtractPlugin({
         // If within normal JS framework environment,
         // use this to autogenerate hash
