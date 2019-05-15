@@ -3,12 +3,14 @@ import react1DataJson from './react1.json';
 
 const devJson = true; // Move to .env file
 
-if (!devJson) {
+if (devJson) {
   // Let React load JSON data via API if required
-  react1DataJson = null;
+  mountReact(react1DataJson);
+} else {
+  mountReact(null);
 }
 
 console.log ('This is component react1 loaded');
 
-mountReact(react1DataJson);
+
 

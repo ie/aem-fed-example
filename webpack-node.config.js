@@ -1,6 +1,5 @@
 // webpack.config.js
 const path = require('path');
-const glob = require('glob');
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 const MinifyPlugin = require('babel-minify-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -8,29 +7,11 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const StyleLintPlugin = require('stylelint-webpack-plugin');
 const webpack = require('webpack');
 
-const globArrayJs = glob.sync('./test/components/*/dev/*.js', {ignore: ['./test/components/*/dev/*.data.js']});
-
-let entryObjectJs = {}, masterClientLibs = {};
-
-if (globArrayJs.length > 0) {
-  entryObjectJs = globArrayJs.reduce((acc, item) => {
-    const name = path.normalize(path.dirname(item) + "/" + path.basename(item, ".js"));
-    acc[name] = item;
-    return acc;
-  }, {});
-  masterClientLibs = globArrayJs;
-}
-
-let entryObjectsOthers = {
-  tools: './tools/watch.js',
-  app: './tools/app.js',
-}
-
-const entryObject = {...entryObjectJs, ...entryObjectsOthers, masterClientLibs };
-
 const config = {
-	  mode: 'development',
-	  entry: entryObject,
+    mode: 'development',
+    entry: {
+        tools: './tools/watch.js'
+    },
     devtool: 'source-map',
     node: {
       fs: 'empty'
@@ -67,14 +48,6 @@ const config = {
         // emitfile to be false if there is no need to recreate a file
         // by specifying name without the [hash], can output without using the auto hash system of webpack
         // otherwise it can be bundled together with auto hashing
-        },
-        {
-          test: /.jsx?$/,
-          loader: 'babel-loader',
-          exclude: /node_modules/,
-          query: {
-              presets: ['@babel/react']
-          }
         },
         {
           test:/\.(s*)css$/,

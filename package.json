@@ -4,12 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "npm-run-all --parallel serve-debug watch",
+    "start": "npm-run-all --parallel watch-tools serve-debug watch",
     "node": "node .",
     "serve": "node ./bin/www",
     "serve-debug": "cross-env DEBUG=myapp:* && yarn serve",
     "build": "node . && yarn clear-dist && webpack --progress --mode=production && yarn clientlibs",
-    "watch": "webpack --progress --mode=development --watch",
+    "watch": "webpack --progress --mode=development --watch --config ./webpack-front.config.js",
+    "watch-tools": "webpack --progress --mode=development --watch --config ./webpack-node.config.js",
     "clientlibs": "node node_modules/aem-clientlib-generator/bin/clientlib-cli.js clientlib.config.js --verbose",
     "clear-dist": "rm -rf ./public", 
     "test": "echo \"Error: no test specified\" && exit 1"
