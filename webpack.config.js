@@ -81,6 +81,14 @@ const config = {
         // otherwise it can be bundled together with auto hashing
         },
         {
+          test: /.jsx?$/,
+          loader: 'babel-loader',
+          exclude: /node_modules/,
+          query: {
+              presets: ['@babel/react']
+          }
+        },
+        {
           test:/\.(s*)css$/,
           use: [
             {

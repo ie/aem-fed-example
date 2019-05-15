@@ -24,6 +24,8 @@
     <h1 class="header--main-info-1">${properties.title} ${name} First Template</h1>
 </div>
 
+<div data-sly-use.lib="./test/components/react1/react1.htl" data-sly-call="${lib.react1 @ info=react1}"></div>
+
 <div data-sly-use.lib="./test/components/info/info.htl" data-sly-call="${lib.info @ info=info}"></div>
 
 <div data-sly-use.lib="./test/components/info2/info2.htl" data-sly-call="${lib.info2 @ info2=info2}"></div>

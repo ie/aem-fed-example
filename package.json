@@ -34,10 +34,13 @@
     "http-errors": "~1.6.2",
     "morgan": "~1.9.0",
     "pug": "2.0.0-beta11",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
     "request": "^2.88.0"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.4.4",
+    "@babel/preset-react": "^7.0.0",
     "babel-loader": "^8.0.5",
     "babel-minify-webpack-plugin": "^0.3.1",
     "browser-sync": "^2.26.5",
