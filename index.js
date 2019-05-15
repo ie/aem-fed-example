@@ -66,6 +66,12 @@ const jsdom = require('jsdom'),
               dom = new JSDOM(ret.body);
 
             for (let componentName in global.fullObj) {
+
+              let checkElement = dom.window.document.getElementById('load-component-' + componentName);
+              if (checkElement === null) {
+                continue;
+              }
+
               let style = dom.window.document.createElement('link'),
                 script = dom.window.document.createElement('script');
 

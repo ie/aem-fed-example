@@ -24,7 +24,9 @@
     <h1 class="header--main-info-2">${properties.title} ${name} - Second Template</h1>
 </div>
 
-<div data-sly-use.lib="./test/components/info2/info2.htl" data-sly-call="${lib.info2 @ info2=info2}"></div>
+<div id="load-component-info2">
+    <div data-sly-use.lib="./test/components/info2/info2.htl" data-sly-call="${lib.info2 @ info2=info2}"></div>
+</div>
 
 <div data-sly-list="${properties.fruits}">
     <div class="container-fluid">${item}</div>

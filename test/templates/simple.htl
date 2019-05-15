@@ -24,11 +24,17 @@
     <h1 class="header--main-info-1">${properties.title} ${name} First Template</h1>
 </div>
 
-<div data-sly-use.lib="./test/components/react1/react1.htl" data-sly-call="${lib.react1 @ info=react1}"></div>
+<div id="load-component-react1">
+    <div data-sly-use.lib="./test/components/react1/react1.htl" data-sly-call="${lib.react1 @ react1=react1}"></div>
+</div>
 
-<div data-sly-use.lib="./test/components/info/info.htl" data-sly-call="${lib.info @ info=info}"></div>
+<div id="load-component-info">
+    <div data-sly-use.lib="./test/components/info/info.htl" data-sly-call="${lib.info @ info=info}"></div>
+</div>
 
-<div data-sly-use.lib="./test/components/info2/info2.htl" data-sly-call="${lib.info2 @ info2=info2}"></div>
+<div id="load-component-info2">
+    <div data-sly-use.lib="./test/components/info2/info2.htl" data-sly-call="${lib.info2 @ info2=info2}"></div>
+</div>
 
 <div data-sly-list="${properties.fruits}">
     <div class="container-fluid">${item}</div>

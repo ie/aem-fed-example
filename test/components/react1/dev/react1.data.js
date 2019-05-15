@@ -1,6 +1,6 @@
 const { retrieveJsonData } = require('../../../../tools/loadJsonData'),
 
-  jsonFilePath = 'test/components/info/dev/info.json',
+  jsonFilePath = 'test/components/react1/dev/react1.json',
   jsonApiUrl = null;
 
 module.exports = new Promise(async (resolve) => {
