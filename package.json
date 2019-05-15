@@ -8,9 +8,10 @@
     "node": "node .",
     "serve": "node ./bin/www",
     "serve-debug": "cross-env DEBUG=myapp:* && yarn serve",
-    "build": "node . && yarn clientlibs && webpack --progress --mode=production",
+    "build": "node . && yarn clear-dist && webpack --progress --mode=production && yarn clientlibs",
     "watch": "webpack --progress --mode=development --watch",
     "clientlibs": "node node_modules/aem-clientlib-generator/bin/clientlib-cli.js clientlib.config.js --verbose",
+    "clear-dist": "rm -rf ./public", 
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

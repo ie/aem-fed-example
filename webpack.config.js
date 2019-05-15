@@ -8,30 +8,17 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const StyleLintPlugin = require('stylelint-webpack-plugin');
 const webpack = require('webpack');
 
-const globArrayScss = glob.sync('./test/components/*/dev/*.scss');
-
-let entryObjectScss = {}, masterCss = {};
-
-if (globArrayScss.length > 0) {
-  entryObjectScss = globArrayScss.reduce((acc, item) => {
-    const name = path.normalize(path.dirname(item) + "/" + path.basename(item, ".scss"));
-    acc[name+"-css"] = item;
-    return acc;
-  }, {});
-  masterCss = globArrayScss;
-}
-
 const globArrayJs = glob.sync('./test/components/*/dev/*.js', {ignore: ['./test/components/*/dev/*.data.js']});
 
-let entryObjectJs = {}, masterJs = {};
+let entryObjectJs = {}, masterClientLibs = {};
 
 if (globArrayJs.length > 0) {
   entryObjectJs = globArrayJs.reduce((acc, item) => {
     const name = path.normalize(path.dirname(item) + "/" + path.basename(item, ".js"));
-    acc[name+"-js"] = item;
+    acc[name] = item;
     return acc;
   }, {});
-  masterJs = globArrayJs;
+  masterClientLibs = globArrayJs;
 }
 
 let entryObjectsOthers = {
@@ -39,7 +26,7 @@ let entryObjectsOthers = {
   app: './tools/app.js',
 }
 
-const entryObject = {...entryObjectScss, ...entryObjectJs, ...entryObjectsOthers, masterCss, masterJs };
+const entryObject = {...entryObjectJs, ...entryObjectsOthers, masterClientLibs };
 
 const config = {
 	  mode: 'development',

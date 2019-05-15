@@ -1,4 +1,4 @@
 #base=js
 
-info2-js.js
+info2.js
 app.js

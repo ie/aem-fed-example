@@ -46,7 +46,7 @@ const jsdom = require('jsdom'),
 
         let filename = path.join(__dirname, srcHTLFolder, file),
           fileshorthtml = file.replace('.htl', '.html'),
-          resourceFile = file.replace('.htl', '.js'),
+          resourceFile = file.replace('.htl', '.data.js'),
           resourceFileFullPath = srcSpecFolder + resourceFile;
 
         delete require.cache[require.resolve(resourceFileFullPath)];
@@ -71,14 +71,14 @@ const jsdom = require('jsdom'),
 
               // Add component css to head
               style.rel = 'stylesheet';
-              style.href = '/test/components/' + componentName + '/dev/' + componentName + '-css.css';
+              style.href = '/test/components/' + componentName + '/dev/' + componentName + '.css';
               dom.window.document.head.appendChild(style);
               // Add line feed for easier reading
               dom.window.document = addCarriageReturn(dom.window.document, 'head');
 
               // Add component scripts to body
               script.type = 'text/javascript';
-              script.src = '/test/components/' + componentName + '/dev/' + componentName + '-js.js';
+              script.src = '/test/components/' + componentName + '/dev/' + componentName + '.js';
               dom.window.document.body.appendChild(script);
               // Add line feed for easier reading
               dom.window.document = addCarriageReturn(dom.window.document, 'body');

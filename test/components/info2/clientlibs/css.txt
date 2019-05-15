@@ -1,5 +1,5 @@
 #base=css
 
-info2-css.css
+info2.css
 styling.css
 lib.css
