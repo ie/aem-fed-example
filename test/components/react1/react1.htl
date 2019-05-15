@@ -1,6 +1,6 @@
 <template data-sly-template.react1="${@ react1}">
     <div id ="react1"></div>
-    <h1>${react1.title}</h1>
-    <p>${react1.description}</p>
+    <h1>Outside React: ${react1.title}</h1>
+    <p>Outside React: ${react1.description}</p>
 </template>
 
