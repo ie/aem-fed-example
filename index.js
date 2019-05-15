@@ -67,7 +67,7 @@ const jsdom = require('jsdom'),
 
             for (let componentName in global.fullObj) {
 
-              let checkElement = dom.window.document.getElementById('load-component-' + componentName);
+              const checkElement = dom.window.document.getElementById('load-component-' + componentName);
               if (checkElement === null) {
                 continue;
               }
