@@ -11,6 +11,7 @@
     "build": "webpack --progress --mode=production",
     "watch": "webpack --progress --mode=development --watch",
     "clientlibs": "node node_modules/aem-clientlib-generator/bin/clientlib-cli.js clientlib.config.js --verbose",
+    "compile-ts": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -34,7 +35,8 @@
     "http-errors": "~1.6.2",
     "morgan": "~1.9.0",
     "pug": "2.0.0-beta11",
-    "request": "^2.88.0"
+    "request": "^2.88.0",
+    "typescript": "^3.4.5"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.4.4",

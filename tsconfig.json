@@ -1,0 +1,33 @@
+{
+    "compilerOptions": {
+        "allowJs": false,
+        "allowSyntheticDefaultImports": true,
+        "declaration": false,
+        "experimentalDecorators": true,
+        "jsx": "preserve",
+        "lib": [
+            "dom",
+            "es2017"
+        ],
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "noImplicitAny": false,
+        "preserveConstEnums": true,
+        "removeComments": false,
+        "skipLibCheck": true,
+        "stripInternal": true,
+        "sourceMap": true,
+        "target": "esnext",
+        "typeRoots": [
+            "node_modules/@types/"
+        ],
+        "types": [
+            "node"
+        ],
+        // "outDir": "public"
+    },
+    "exclude": [
+        "node_modules",
+        "public"
+    ],
+}
