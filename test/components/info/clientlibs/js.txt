@@ -1,4 +1,5 @@
 #base=js
 
+info-js.js
 app.js
-libs/mylib.min.js
+mylib.min.js

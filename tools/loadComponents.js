@@ -43,7 +43,7 @@ const fse = require('fs-extra'),
   },
 
   runThroughAllComponentDirs = async (file) => {
-    let innerDirectory = srcComponentsFolder + '/' + file + '/',
+    let innerDirectory = srcComponentsFolder + '/' + file + '/dev/',
       filesInner = fse.readdirSync(innerDirectory);
     await asyncForEach(filesInner, async (fileInner) => {
       global.fullObj = await loadInComponentFile (innerDirectory, fileInner);
@@ -53,11 +53,11 @@ const fse = require('fs-extra'),
   loadInComponentFile = async (innerDirectory, fileInner) => {
     let filename = path.join(innerDirectory, fileInner),
       stat = fse.statSync(filename);
-
     if (stat.isFile()) {
       if (fileInner.endsWith('.data.js')) {
         console.log("'%s' is a component to be processed.", filename);
         const nameOfFile = path.basename(filename, '.data.js');
+        delete require.cache[require.resolve(path.normalize(__dirname + '/../' + filename))];
         let resource = require(path.normalize(__dirname + '/../' + filename));
         global.fullObj[nameOfFile] = await resource;
       }

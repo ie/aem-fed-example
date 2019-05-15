@@ -114,6 +114,12 @@ Go to http://localhost:3000/
 
 ### Production
 
+Compile and minify all
+```bash
+yarn build
+```
+
+View currently generated html without linting and hot reloading (rebuilds to JSON changes)
 ```bash
 yarn serve
 ```
@@ -121,29 +127,50 @@ Go to http://localhost:1234/
 
 ### Client Libs
 
-Client libs are stored in the folder clientlib-src/
+All component JS and CSS (from SCSS) will automatically be linked in developer generated html if they follow the following format:
 
-The current script will now include the clientlibs into each component folder by running 
+```bash
++-- components
+|   +-- component-1 (put component htl, scss, js and JSON together)
+|   |   +-- component-1.js
+|   |   +-- component-1.scss
+|   |   +-- ...
+```
+
+Client libs that are not part of components are to be stored in the folder clientlib-src/
+
+Suggested folder structure:
+```bash
++-- clientlib-src
+|   +-- css
+|   +-- js
+|   +-- resources
+|   ...
+```
+
+To generate the clientlib folder structure into each component
 ```bash
 yarn clientlibs
 ```
 
-Settings for this script are to be modified via clientlib.config.js
-
-Note that the clientlibs are installed into the format of AEM but are not linked into the HTL automatically
-
-To link the SCSS and JS into the component, manually include it like normal into the component HTL, eg.
-
-~~~~
-<template data-sly-template.component-1="${@ component-1}">
-    <!-- START this is where ClientLibs should be -->
-    <link rel="stylesheet" href="/test/components/info/info-css.css" />
-    <script src="/test/components/info/info-js.js"></script>
-    <!-- END this is where ClientLibs should be -->
-    <h1>${component-1.title}</h1>
-    <p>${component-1.description}</p>
-</template>
-~~~~
+Full settings for this script are to be modified via clientlib.config.js
+Note that the generation of component clientlib folders need to be added manually, eg.
+```bash
+libs: [{
+        name: "component-1",
+        assets: {
+            js: [
+                "public/test/components/component-1/dev/component-1-js.js",
+                ...
+            ],
+            css: [
+                "public/test/components/component-1/dev/component-1-css.css",
+                ...
+            ]
+        },
+        ...
+      }]
+```   
 
 #### Further work
 

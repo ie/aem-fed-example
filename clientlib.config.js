@@ -32,13 +32,13 @@ module.exports = {
             longCacheKey: "${project.version}-${buildNumber}",
             assets: {
                 js: [
-                    "public/test/components/info/info.js", // Default
+                    "public/test/components/info/dev/info-js.js", // Default
                     "test/clientlib-src/js/app.js",
                     "test/clientlib-src/js/libs/mylib.min.js",
                     "test/clientlib-src/js/libs/mylib.min.js.map",
                 ],
                 css: [
-                    "public/test/components/info/info.css", // Default
+                    "public/test/components/info/dev/info-css.css", // Default
                     "test/clientlib-src/css/styling.css",
                     "test/clientlib-src/css/lib.css"
                 ],
@@ -55,12 +55,12 @@ module.exports = {
             allowProxy: true,
             longCacheKey: "${project.version}-${buildNumber}",
             assets: {
-                js: [{
-                        src: "test/clientlib-src/js/app.js",
-                        dest: "app.js"
-                    },
+                js: [
+                    "public/test/components/info2/dev/info2-js.js", // Default
+                    "test/clientlib-src/js/app.js",
                 ],
                 css: [
+                    "public/test/components/info2/dev/info2-css.css", // Default
                     "test/clientlib-src/css/styling.css",
                     "test/clientlib-src/css/lib.css"
                 ],

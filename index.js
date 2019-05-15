@@ -22,7 +22,11 @@ const engine = require('./tools/main'),
   // Define src folders - should move to .env folder
   srcHTLFolder = './test/templates/',
   srcSpecFolder = './test/specs/',
-  jsOutputFolder = './jsoutput/',
+  jsOutputFolder = './jsoutput/';
+
+const { addCarriageReturn } = require('./tools/helpers');
+const jsdom = require('jsdom'),
+  { JSDOM } = jsdom,
 
   // Full HTL section
 
@@ -57,8 +61,33 @@ const engine = require('./tools/main'),
           if (stat.isFile()) {
             console.log("'%s' is a template to be processed.", filename);
             let ret = await engine(resource, template, resourceFile);
-            const filenameOut = path.resolve(process.cwd(), './generated_html/' + fileshorthtml);
-            fse.writeFile(filenameOut, ret.body, 'utf-8');
+            const filenameOut = path.resolve(process.cwd(), './generated_html/' + fileshorthtml),
+
+              dom = new JSDOM(ret.body);
+
+            for (let componentName in global.fullObj) {
+              let style = dom.window.document.createElement('link'),
+                script = dom.window.document.createElement('script');
+
+              // Add component css to head
+              style.rel = 'stylesheet';
+              style.href = '/test/components/' + componentName + '/dev/' + componentName + '-css.css';
+              dom.window.document.head.appendChild(style);
+              // Add line feed for easier reading
+              dom.window.document = addCarriageReturn(dom.window.document, 'head');
+
+              // Add component scripts to body
+              script.type = 'text/javascript';
+              script.src = '/test/components/' + componentName + '/dev/' + componentName + '-js.js';
+              dom.window.document.body.appendChild(script);
+              // Add line feed for easier reading
+              dom.window.document = addCarriageReturn(dom.window.document, 'body');
+
+            }
+
+            const modifiedBody = dom.serialize();
+
+            fse.writeFile(filenameOut, modifiedBody, 'utf-8');
 
             // Remove generated javascript files
             fse.unlinkSync(jsOutputFolder + resourceFile);
