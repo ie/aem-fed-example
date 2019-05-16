@@ -24,7 +24,8 @@
         "types": [
             "node"
         ],
-        // "outDir": "public"
+        "rootDir": "./test",
+        "outDir": "./public/test"
     },
     "exclude": [
         "node_modules",
