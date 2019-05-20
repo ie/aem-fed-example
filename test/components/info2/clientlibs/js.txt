@@ -1,4 +1,0 @@
-#base=js
-
-info2.js
-app.js

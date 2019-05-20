@@ -1,5 +1,0 @@
-#base=js
-
-info.js
-app.js
-mylib.min.js

@@ -1,3 +1,0 @@
-#base=js
-
-react1.js
