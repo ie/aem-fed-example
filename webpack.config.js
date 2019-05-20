@@ -5,13 +5,12 @@ const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 const MinifyPlugin = require('babel-minify-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-const StyleLintPlugin = require('stylelint-webpack-plugin'),
+const StyleLintPlugin = require('stylelint-webpack-plugin');
+const webpack = require('webpack');
 
-  finalCSSOutput = 'dist/css/style.min.css';
+const globArrayScss = glob.sync('./test/components/*/dev/*.scss');
 
-const globArrayScss = glob.sync('./test/components/*/*.scss');
-
-let entryObjectScss = {};
+let entryObjectScss = {}, masterCss = {};
 
 if (globArrayScss.length > 0) {
   entryObjectScss = globArrayScss.reduce((acc, item) => {
@@ -19,11 +18,12 @@ if (globArrayScss.length > 0) {
     acc[name+"-css"] = item;
     return acc;
   }, {});
+  masterCss = globArrayScss;
 }
 
-const globArrayJs = glob.sync('./test/components/*/*.js', {ignore: ['./test/components/*/*.data.js']});
+const globArrayJs = glob.sync('./test/components/*/dev/*.js', {ignore: ['./test/components/*/dev/*.data.js']});
 
-let entryObjectJs = {};
+let entryObjectJs = {}, masterJs = {};
 
 if (globArrayJs.length > 0) {
   entryObjectJs = globArrayJs.reduce((acc, item) => {
@@ -31,6 +31,7 @@ if (globArrayJs.length > 0) {
     acc[name+"-js"] = item;
     return acc;
   }, {});
+  masterJs = globArrayJs;
 }
 
 let entryObjectsOthers = {
@@ -38,7 +39,7 @@ let entryObjectsOthers = {
   app: './tools/app.js',
 }
 
-const entryObject = {...entryObjectScss, ...entryObjectJs, ...entryObjectsOthers };
+const entryObject = {...entryObjectScss, ...entryObjectJs, ...entryObjectsOthers, masterCss, masterJs };
 
 const config = {
 	  mode: 'development',
@@ -111,24 +112,6 @@ const config = {
               }
             }
           ]
-        },
-        {
-          test: /\.js$/,
-          exclude: /node_modules/,
-          use: [
-            {
-              loader: 'babel-loader',
-              options: {
-                presets: ['@babel/preset-env']
-              }
-            },
-            {
-              loader: 'eslint-loader',
-              options: {
-                fix: true
-              }
-            }
-          ]
         }
 	    ]
 	  }
@@ -138,7 +121,26 @@ const config = {
 module.exports = (env, argv) => {
   // console.log(argv.mode);        // outputs development
   if (argv.mode === 'development') {
+    config.module.rules.push({
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: 'babel-loader',
+            options: {
+              presets: ['@babel/preset-env']
+            }
+          },
+          {
+            loader: 'eslint-loader',
+            options: {
+              fix: true
+            }
+          }
+        ]
+    });
   	config.plugins = [
+      new webpack.IgnorePlugin(/jsdom$/),
       new MiniCssExtractPlugin({
         filename: '[name].css'
       }),
@@ -156,7 +158,7 @@ module.exports = (env, argv) => {
   }
 
   if (argv.mode === 'production') {
-  	config.mode = 'production';
+    config.mode = 'production';
     config.devtool = false,
     config.optimization = {
       minimizer: [
@@ -164,6 +166,7 @@ module.exports = (env, argv) => {
       ]
     };
     config.plugins = [
+      new webpack.IgnorePlugin(/jsdom$/),
       new MiniCssExtractPlugin({
         // If within normal JS framework environment,
         // use this to autogenerate hash

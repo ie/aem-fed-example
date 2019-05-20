@@ -1,8 +1,4 @@
 <template data-sly-template.info="${@ info}">
-    <!-- START this is where ClientLibs should be -->
-    <link rel="stylesheet" href="/test/components/info/info-css.css" />
-    <script src="/test/components/info/info-js.js"></script>
-    <!-- END this is where ClientLibs should be -->
     <h1>${info.title}</h1>
     <p>${info.description}</p>
 </template>

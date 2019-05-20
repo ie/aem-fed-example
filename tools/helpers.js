@@ -5,4 +5,11 @@ async function asyncForEach(array, callback) {
   }
 }
 
-module.exports = { asyncForEach };
+function addCarriageReturn (domObject, position) {
+  let carriageReturn = domObject.createTextNode('\n');
+  domObject[position].appendChild(carriageReturn);
+  return domObject;
+}
+
+
+module.exports = { asyncForEach, addCarriageReturn };

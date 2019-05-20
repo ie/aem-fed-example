@@ -8,7 +8,7 @@
     "node": "node .",
     "serve": "node ./bin/www",
     "serve-debug": "cross-env DEBUG=myapp:* && yarn serve",
-    "build": "webpack --progress --mode=production",
+    "build": "node . && yarn clientlibs && webpack --progress --mode=production",
     "watch": "webpack --progress --mode=development --watch",
     "clientlibs": "node node_modules/aem-clientlib-generator/bin/clientlib-cli.js clientlib.config.js --verbose",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -32,6 +32,7 @@
     "debug": "~2.6.9",
     "express": "~4.16.0",
     "http-errors": "~1.6.2",
+    "jsdom": "^15.1.0",
     "morgan": "~1.9.0",
     "pug": "2.0.0-beta11",
     "request": "^2.88.0"
