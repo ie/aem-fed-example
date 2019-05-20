@@ -53,48 +53,14 @@ const jsdom = require('jsdom'),
         const resource =  await require(resourceFileFullPath),
           template = await fse.readFile(filename, 'utf-8');
         fse.stat(filename, async (error, stat) => {
+
           if (error) {
             console.error('Error stating file.', error);
             process.exit(1);
           }
 
           if (stat.isFile()) {
-            console.log("'%s' is a template to be processed.", filename);
-            let ret = await engine(resource, template, resourceFile);
-            const filenameOut = path.resolve(process.cwd(), './generated_html/' + fileshorthtml),
-
-              dom = new JSDOM(ret.body);
-
-            for (let componentName in global.fullObj) {
-              let style = dom.window.document.createElement('link'),
-                script = dom.window.document.createElement('script');
-
-              // Add component css to head
-              style.rel = 'stylesheet';
-              style.href = '/test/components/' + componentName + '/dev/' + componentName + '-css.css';
-              dom.window.document.head.appendChild(style);
-              // Add line feed for easier reading
-              dom.window.document = addCarriageReturn(dom.window.document, 'head');
-
-              // Add component scripts to body
-              script.type = 'text/javascript';
-              script.src = '/test/components/' + componentName + '/dev/' + componentName + '-js.js';
-              dom.window.document.body.appendChild(script);
-              // Add line feed for easier reading
-              dom.window.document = addCarriageReturn(dom.window.document, 'body');
-
-            }
-
-            const modifiedBody = dom.serialize();
-
-            fse.writeFile(filenameOut, modifiedBody, 'utf-8');
-
-            // Remove generated javascript files
-            fse.unlinkSync(jsOutputFolder + resourceFile);
-
-            // Optional output html to console
-            // console.log(ret.body);
-
+            await parseEachHTl(filename, fileshorthtml, resource, template, resourceFile);
           }
 
           else if (stat.isDirectory())
@@ -104,6 +70,49 @@ const jsdom = require('jsdom'),
       });
     });
 
+  },
+
+  parseEachHTl = async (filename, fileshorthtml, resource, template, resourceFile) => {
+    console.log("'%s' is a template to be processed.", filename);
+    let ret = await engine(resource, template, resourceFile);
+    const filenameOut = path.resolve(process.cwd(), './generated_html/' + fileshorthtml);
+
+    let dom = new JSDOM(ret.body);
+
+    for (let componentName in global.fullObj) {
+      dom = addCssToHead (dom, componentName);
+      dom = addJsToBody (dom, componentName);
+    }
+
+    const modifiedBody = dom.serialize();
+
+    fse.writeFile(filenameOut, modifiedBody, 'utf-8');
+
+    // Remove generated javascript files
+    fse.unlinkSync(jsOutputFolder + resourceFile);
+
+  // Optional output html to console
+  // console.log(ret.body);
+  },
+
+  addCssToHead = (dom, componentName) => {
+    let style = dom.window.document.createElement('link');
+    style.rel = 'stylesheet';
+    style.href = '/test/components/' + componentName + '/dev/' + componentName + '-css.css';
+    dom.window.document.head.appendChild(style);
+    // Add line feed for easier reading
+    dom.window.document = addCarriageReturn(dom.window.document, 'head');
+    return dom;
+  },
+
+  addJsToBody = (dom, componentName) => {
+    let script = dom.window.document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = '/test/components/' + componentName + '/dev/' + componentName + '-js.js';
+    dom.window.document.body.appendChild(script);
+    // Add line feed for easier reading
+    dom.window.document = addCarriageReturn(dom.window.document, 'body');
+    return dom;
   };
 
 module.exports = executeHtlParser;
