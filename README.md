@@ -15,26 +15,35 @@ The structure expected is as follows
 +-- assets
 |   +-- scripts (put master scripts here)
 |   +-- styles (put master styles here)
++-- clientlib-src (put any clientlib that is not for components here)
+|   +-- css
+|   +-- js
+|   ...
 +-- components
 |   +-- component-1 (put component htl, scss, js and JSON together)
-|   |   +-- component-1.data.js 
+|   |   +-- clientlibs (automatically generated in build task) 
+|   |   +-- dev 
+|   |   |   +-- component-1.data.js 
+|   |   |   +-- component-1.js
+|   |   |   +-- component-1.json
+|   |   |   +-- component-1.scss
 |   |   +-- component-1.htl 
-|   |   +-- component-1.js
-|   |   +-- component-1.json
-|   |   +-- component-1.scss
-|   +-- component-2 (put component htl, scss, js and JSON together)
-|   |   +-- component-2.data.js 
-|   |   +-- component-2.htl 
-|   |   +-- component-2.js
-|   |   +-- component-2.json
-|   |   +-- component-2.scss
+|   +-- react-component-1 (put component htl, scss, js and JSON together)
+|   |   +-- clientlibs (automatically generated in build task) 
+|   |   +-- dev 
+|   |   |   +-- react-component-1.data.js 
+|   |   |   +-- react-component-1.js (load normal JS and also use this to call React mount w/o JSX)
+|   |   |   +-- react-component-1.json
+|   |   |   +-- react-component-1.jsx (source of all React JSX for this component)
+|   |   |   +-- react-component-1.scss
+|   |   +-- react-component-1.htl 
 +-- rawhtml (this is the full static html reference)
 |   +-- html-1.spec.html
 |   +-- html-2.spec.html
 +-- specs (this is the JSON object logic of full html pages)
-|   +-- html-1.js
+|   +-- html-1.data.js
 |   +-- html-1.json
-|   +-- html-2.js
+|   +-- html-2.data.js
 |   +-- html-2.json
 +-- templates (this is the HTL version of the full html page)
 |   +-- html-1.htl
@@ -45,7 +54,11 @@ The structure expected is as follows
 
 Component HTL template is as follows:
 
-Sample JSON: components/component-1/component-1.js:
+Include any JS and SCSS in the format: 
+- components/component-1/dev/component-1.js (import the component-1.scss here)
+- components/component-1/dev/component-1.scss
+
+Sample JSON loading in component - components/component-1/dev/component-1.data.js:
 
 ~~~~
 const { retrieveJsonData } = require('../../../src/loadJsonData');
@@ -60,7 +73,7 @@ module.exports = new Promise(async (resolve) => {
 
 ~~~~
 
-Sample HTL: components/component-1/component-1.htl:
+Sample component HTL - components/component-1/component-1.htl:
 
 ~~~~
 <template data-sly-template.component-1="${@ component-1}">
@@ -69,28 +82,79 @@ Sample HTL: components/component-1/component-1.htl:
 </template>
 ~~~~
   
-### Component / Partials Loading
+### React Component / Partials Loading
 
-When there is a need to use components, use loadComponents to load all components within the components/ folder
-
-Sample templates/html-1.htl:
+Sample root JS of component loading React - components/component-1/dev/component-1.js
 
 ~~~~
-<div data-sly-use.lib="./test/components/component-1/component-1.htl" data-sly-call="${lib.component-1 @ component-1=component-1}"></div>
+import mountReact from './component-1.jsx';
+import component1DataJson from './component-1.json';
+
+const devJson = true; // Move to .env file
+
+if (devJson) {
+  // Let React load JSON data via API if required
+  mountReact(component1DataJson);
+} else {
+  mountReact(null);
+}
 ~~~~
 
-Sample specs/html-1.js:
+Sample React JSX of component - components/component-1/dev/component-1.jsx
 
 ~~~~
-const { extendJson, retrieveJsonData } = require('../../src/loadJsonData');
-const loadComponents = require('../../src/loadComponents');
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './component-1.scss';
 
-const jsonFilePath = "test/specs//html-1.json";
-const jsonApiUrl = null;
+function Component1(props) {
+  return (
+    <div className="App">
+      <header className="App-header">
+        <h4>From React: {props.title}</h4>
+        <p>From React: {props.description}</p>
+      </header>
+    </div>
+  );
+}
+
+function mountReact(props) {
+  return ReactDOM.render(<Component1 {...props} />, document.getElementById('component1'));
+}
+
+export default mountReact;
+~~~~
+
+Sample React component HTL - components/component-1/component-1.htl:
+
+~~~~
+<template data-sly-template.component-1="${@ component-1}">
+  <div id = 'component1'></div>
+</template>
+~~~~
+
+### Component / Partials Loading from main HTL template
+
+Load JSON data into main HTL template - templates/html-1.htl:
+
+~~~~
+<div id="load-component-component-1">
+  <div data-sly-use.lib="./test/components/component-1/component-1.htl" data-sly-call="${lib.component-1 @ component-1=component-1}"></div>
+</div>
+~~~~
+
+Load JSON data into main HTL template - specs/html-1.data.js:
+
+~~~~
+const { extendJson, retrieveJsonData } = require('../../tools/loadJsonData');
+const loadComponents = require('../../tools/loadComponents'),
+
+  jsonFilePath = 'test/specs/html-1.json',
+  jsonApiUrl = null;
 
 module.exports = new Promise(async (resolve) => {
-  let jsonData = await retrieveJsonData(jsonFilePath, jsonApiUrl);
-  let allComponentData = await loadComponents();
+  let jsonData = await retrieveJsonData(jsonFilePath, jsonApiUrl),
+    allComponentData = await loadComponents();
   resolve (extendJson (allComponentData, jsonData));
 });
 ~~~~
@@ -185,13 +249,9 @@ https://gist.github.com/yupadhyay/a7348e7fbf98590f176c
 
 ### TO DO
 
-1. Adding SCSS support
-2. Client libs
-3. Hot reloading when files change
-4. Resolve all eslint errors
-5. Example BEM styling on a component
-6. Add React to a component
-7. Add Typescript support
+1. Resolve all eslint errors
+2. Example BEM styling on a component
+3. Add Typescript support
 
 ### Resources
 

@@ -1,6 +1,5 @@
 // webpack.config.js
 const path = require('path');
-const glob = require('glob');
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 const MinifyPlugin = require('babel-minify-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -8,42 +7,11 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const StyleLintPlugin = require('stylelint-webpack-plugin');
 const webpack = require('webpack');
 
-const globArrayScss = glob.sync('./test/components/*/dev/*.scss');
-
-let entryObjectScss = {}, masterCss = {};
-
-if (globArrayScss.length > 0) {
-  entryObjectScss = globArrayScss.reduce((acc, item) => {
-    const name = path.normalize(path.dirname(item) + "/" + path.basename(item, ".scss"));
-    acc[name+"-css"] = item;
-    return acc;
-  }, {});
-  masterCss = globArrayScss;
-}
-
-const globArrayJs = glob.sync('./test/components/*/dev/*.js', {ignore: ['./test/components/*/dev/*.data.js']});
-
-let entryObjectJs = {}, masterJs = {};
-
-if (globArrayJs.length > 0) {
-  entryObjectJs = globArrayJs.reduce((acc, item) => {
-    const name = path.normalize(path.dirname(item) + "/" + path.basename(item, ".js"));
-    acc[name+"-js"] = item;
-    return acc;
-  }, {});
-  masterJs = globArrayJs;
-}
-
-let entryObjectsOthers = {
-  tools: './tools/watch.js',
-  app: './tools/app.js',
-}
-
-const entryObject = {...entryObjectScss, ...entryObjectJs, ...entryObjectsOthers, masterCss, masterJs };
-
 const config = {
-	  mode: 'development',
-	  entry: entryObject,
+    mode: 'development',
+    entry: {
+        tools: './tools/watch.js'
+    },
     devtool: 'source-map',
     node: {
       fs: 'empty'

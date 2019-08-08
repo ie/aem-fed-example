@@ -32,13 +32,13 @@ module.exports = {
             longCacheKey: "${project.version}-${buildNumber}",
             assets: {
                 js: [
-                    "public/test/components/info/dev/info-js.js", // Default
+                    "public/test/components/info/dev/info.js", // Default
                     "test/clientlib-src/js/app.js",
                     "test/clientlib-src/js/libs/mylib.min.js",
                     "test/clientlib-src/js/libs/mylib.min.js.map",
                 ],
                 css: [
-                    "public/test/components/info/dev/info-css.css", // Default
+                    "public/test/components/info/dev/info.css", // Default
                     "test/clientlib-src/css/styling.css",
                     "test/clientlib-src/css/lib.css"
                 ],
@@ -56,16 +56,32 @@ module.exports = {
             longCacheKey: "${project.version}-${buildNumber}",
             assets: {
                 js: [
-                    "public/test/components/info2/dev/info2-js.js", // Default
+                    "public/test/components/info2/dev/info2.js", // Default
                     "test/clientlib-src/js/app.js",
                 ],
                 css: [
-                    "public/test/components/info2/dev/info2-css.css", // Default
+                    "public/test/components/info2/dev/info2.css", // Default
                     "test/clientlib-src/css/styling.css",
                     "test/clientlib-src/css/lib.css"
                 ],
                 resources: [
                     "test/clientlib-src/resources/template.html"
+                ]
+            }
+        },
+        {
+            name: "react1",
+            outputPath: path.resolve(__dirname, "test", "components", "react1", "clientlibs"),
+            cssProcessor: ["default:none", "min:none"], // disable minification for CSS
+            jsProcessor: ["default:none", "min:gcc"], // using google closure compiler instead of YUI,
+            allowProxy: true,
+            longCacheKey: "${project.version}-${buildNumber}",
+            assets: {
+                js: [
+                    "public/test/components/react1/dev/react1.js", // Default
+                ],
+                css: [
+                    "public/test/components/react1/dev/react1.css", // Default
                 ]
             }
         }

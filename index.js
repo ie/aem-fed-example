@@ -46,7 +46,7 @@ const jsdom = require('jsdom'),
 
         let filename = path.join(__dirname, srcHTLFolder, file),
           fileshorthtml = file.replace('.htl', '.html'),
-          resourceFile = file.replace('.htl', '.js'),
+          resourceFile = file.replace('.htl', '.data.js'),
           resourceFileFullPath = srcSpecFolder + resourceFile;
 
         delete require.cache[require.resolve(resourceFileFullPath)];
@@ -74,12 +74,18 @@ const jsdom = require('jsdom'),
 
   parseEachHTl = async (filename, fileshorthtml, resource, template, resourceFile) => {
     console.log("'%s' is a template to be processed.", filename);
-    let ret = await engine(resource, template, resourceFile);
+    let ret = await engine(resource, template, resourceFile),
+      dom = new JSDOM(ret.body);
     const filenameOut = path.resolve(process.cwd(), './generated_html/' + fileshorthtml);
 
-    let dom = new JSDOM(ret.body);
-
     for (let componentName in global.fullObj) {
+
+      // Only load the component if it has been called in the HTL
+      const checkElement = dom.window.document.getElementById('load-component-' + componentName);
+      if (checkElement === null) {
+        continue;
+      }
+
       dom = addCssToHead (dom, componentName);
       dom = addJsToBody (dom, componentName);
     }
@@ -98,7 +104,7 @@ const jsdom = require('jsdom'),
   addCssToHead = (dom, componentName) => {
     let style = dom.window.document.createElement('link');
     style.rel = 'stylesheet';
-    style.href = '/test/components/' + componentName + '/dev/' + componentName + '-css.css';
+    style.href = '/test/components/' + componentName + '/dev/' + componentName + '.css';
     dom.window.document.head.appendChild(style);
     // Add line feed for easier reading
     dom.window.document = addCarriageReturn(dom.window.document, 'head');
@@ -108,7 +114,7 @@ const jsdom = require('jsdom'),
   addJsToBody = (dom, componentName) => {
     let script = dom.window.document.createElement('script');
     script.type = 'text/javascript';
-    script.src = '/test/components/' + componentName + '/dev/' + componentName + '-js.js';
+    script.src = '/test/components/' + componentName + '/dev/' + componentName + '.js';
     dom.window.document.body.appendChild(script);
     // Add line feed for easier reading
     dom.window.document = addCarriageReturn(dom.window.document, 'body');

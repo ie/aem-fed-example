@@ -1,4 +1,5 @@
 // This script is used to import all assets
 
-import '../assets/styles/styles.scss';
-import '../assets/scripts/main.js';
+import '../test/assets/styles/index.scss';
+import '../test/assets/styles/index.js';
+import '../test/assets/scripts/main.js';

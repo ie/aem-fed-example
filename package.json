@@ -4,13 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "npm-run-all --parallel serve-debug watch",
+    "start": "npm-run-all --parallel watch-tools serve-debug watch",
     "node": "node .",
     "serve": "node ./bin/www",
     "serve-debug": "cross-env DEBUG=myapp:* && yarn serve",
-    "build": "node . && yarn clientlibs && webpack --progress --mode=production",
-    "watch": "webpack --progress --mode=development --watch",
+    "build": "node . && yarn clear-dist && webpack --progress --mode=production --config ./webpack-front.config.js && yarn clientlibs",
+    "watch": "webpack --progress --mode=development --watch --config ./webpack-front.config.js",
+    "watch-tools": "webpack --progress --mode=development --watch --config ./webpack-node.config.js",
     "clientlibs": "node node_modules/aem-clientlib-generator/bin/clientlib-cli.js clientlib.config.js --verbose",
+    "clear-dist": "rm -rf ./public", 
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -32,13 +34,18 @@
     "debug": "~2.6.9",
     "express": "~4.16.0",
     "http-errors": "~1.6.2",
+    "ie-design-system": "https://github.com/ie/ie-design-system.git#feature/react",
     "jsdom": "^15.1.0",
     "morgan": "~1.9.0",
     "pug": "2.0.0-beta11",
-    "request": "^2.88.0"
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "request": "^2.88.0",
+    "styled-components": "^4.2.0"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.4.4",
+    "@babel/preset-react": "^7.0.0",
     "babel-loader": "^8.0.5",
     "babel-minify-webpack-plugin": "^0.3.1",
     "browser-sync": "^2.26.5",
