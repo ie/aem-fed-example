@@ -78,6 +78,8 @@ const jsdom = require('jsdom'),
       dom = new JSDOM(ret.body);
     const filenameOut = path.resolve(process.cwd(), './generated_html/' + fileshorthtml);
 
+    // Need to also load in clientlib JS and CSS as described in clientlib.config.js
+
     for (let componentName in global.fullObj) {
 
       // Only load the component if it has been called in the HTL

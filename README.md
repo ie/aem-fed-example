@@ -6,18 +6,40 @@
 
 This is currently a 1 to 1 file generator from HTL to HTML with only NodeJS
 
+To output files to deploy to AEM are in {test}/\
+{test}/rawhtml is intended for testing and can be ignored in deployment
+
+The starting point is to create HTL files in {test}/templates/\
+For testing reference, place an intended outcome HTML version of the HTL file in {test}/rawhtml/\
+When the script is run, the server will generate simulated deployment HTML files in generated_html/\
+Comparing the {test}/rawhtml/ and generated_html/ can be used for testing
+
+Create a component in components/ folder - see Folder Structure section
+
+Link the component HTL to the main HTL in templates/ - see Components / Partials Basics
+
+If there are any master scripts / styles that should be imported outside of AEM clientlibs, they should be placed in\
+{test}/assets/ and loaded manually into the HTL template:\
+- Add the file paths into tools/app.js 
+- The generated compiled scripts / styles is available on public/app.js and public/app.css
+
+If there are AEM clientlibs not specific to components, they should be placed in\
+{test}/clientlib-src/.\
+- Add the file paths into clientlib.config.js and link it to relevant components
+- TODO: Master client libs need to be included in generated_html (see index.js parseEachHtl())
+
 ### Folder Structure
 
 The structure expected is as follows
 
-```bash
+```
 .
-+-- assets
-|   +-- scripts (put master scripts here)
-|   +-- styles (put master styles here)
-+-- clientlib-src (put any clientlib that is not for components here)
-|   +-- css
-|   +-- js
++-- assets (put master scripts here that dont belong to clientlibs)
+|   +-- scripts (compiled to public/app.js)
+|   +-- styles (compiled to public/app.css)
++-- clientlib-src (put any clientlib that is not component-specific here)
+|   +-- css (compiled to components/**/clientlibs/css/*.css)
+|   +-- js (compiled to components/**/clientlibs/js/*.js)
 |   ...
 +-- components
 |   +-- component-1 (put component htl, scss, js and JSON together)
@@ -50,9 +72,7 @@ The structure expected is as follows
 |   +-- html-2.htl
 ```
 
-### Components / Partials
-
-Component HTL template is as follows:
+### Components / Partials Basics
 
 Include any JS and SCSS in the format: 
 - components/component-1/dev/component-1.js (import the component-1.scss here)
@@ -84,7 +104,7 @@ Sample component HTL - components/component-1/component-1.htl:
   
 ### React Component / Partials Loading
 
-Sample root JS of component loading React - components/component-1/dev/component-1.js
+Sample loading React component - components/component-1/dev/component-1.js
 
 ~~~~
 import mountReact from './component-1.jsx';
@@ -93,9 +113,10 @@ import component1DataJson from './component-1.json';
 const devJson = true; // Move to .env file
 
 if (devJson) {
-  // Let React load JSON data via API if required
+  // Load JSON directly into props (recommended)
   mountReact(component1DataJson);
 } else {
+  // Rely on external API function to load into DOM, ie. React without external props
   mountReact(null);
 }
 ~~~~
@@ -133,17 +154,9 @@ Sample React component HTL - components/component-1/component-1.htl:
 </template>
 ~~~~
 
-### Component / Partials Loading from main HTL template
+### HTL Component / Partials Loading 
 
-Load JSON data into main HTL template - templates/html-1.htl:
-
-~~~~
-<div id="load-component-component-1">
-  <div data-sly-use.lib="./test/components/component-1/component-1.htl" data-sly-call="${lib.component-1 @ component-1=component-1}"></div>
-</div>
-~~~~
-
-Load JSON data into main HTL template - specs/html-1.data.js:
+Sample Load JSON data into main HTL template - specs/html-1.data.js:
 
 ~~~~
 const { extendJson, retrieveJsonData } = require('../../tools/loadJsonData');
@@ -159,6 +172,14 @@ module.exports = new Promise(async (resolve) => {
 });
 ~~~~
 
+Sample Load HTL component into main HTL template - templates/html-1.htl:
+
+~~~~
+<div id="load-component-component-1">
+  <div data-sly-use.lib="./test/components/component-1/component-1.htl" data-sly-call="${lib.component-1 @ component-1=component-1}"></div>
+</div>
+~~~~
+
 ### To Setup
 
 Install packages with Yarn
@@ -169,7 +190,8 @@ yarn install
 
 ### Development
 
-Run Express and Webpack with Live Reload
+Run Express and Webpack with Live Reload\
+NOTE: there are 2 webpack configs running in parallel. Only yarn watch (webpack-front.config.js) will trigger a BrowserSync reload
 
 ```bash
 yarn start
@@ -249,9 +271,10 @@ https://gist.github.com/yupadhyay/a7348e7fbf98590f176c
 
 ### TO DO
 
-1. Resolve all eslint errors
-2. Example BEM styling on a component
-3. Add Typescript support
+1. Master client libs need to be included in generated_html (see index.js parseEachHtl())
+2. Resolve all eslint errors
+3. Example BEM styling on a component
+4. Add Typescript support
 
 ### Resources
 
