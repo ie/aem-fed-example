@@ -115,13 +115,13 @@ module.exports = (env, argv) => {
       new StyleLintPlugin({
         configFile: '.stylelintrc'
       }),
-      new BrowserSyncPlugin(
-        {
-          host: 'localhost',
-          port: 3000,
-          proxy: 'http://localhost:1234/'
-        }
-      )
+      // new BrowserSyncPlugin(
+      //   {
+      //     host: 'localhost',
+      //     port: 3000,
+      //     proxy: 'http://localhost:1234/'
+      //   }
+      // )
     ];
   }
 
