@@ -37,7 +37,7 @@
     "ie-design-system": "https://github.com/ie/ie-design-system.git#feature/react",
     "jsdom": "^15.1.0",
     "morgan": "~1.9.0",
-    "pug": "2.0.0-beta11",
+    "pug": "3.0.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "request": "^2.88.0",
