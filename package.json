@@ -35,7 +35,7 @@
     "express": "~4.16.0",
     "http-errors": "~1.6.2",
     "ie-design-system": "https://github.com/ie/ie-design-system.git#feature/react",
-    "jsdom": "^15.1.0",
+    "jsdom": "^16.5.0",
     "morgan": "~1.9.0",
     "pug": "2.0.0-beta11",
     "react": "^16.8.6",
