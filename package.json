@@ -32,7 +32,7 @@
     "cookie-parser": "~1.4.3",
     "cross-env": "^5.2.0",
     "debug": "~2.6.9",
-    "express": "~4.16.0",
+    "express": "~4.17.3",
     "http-errors": "~1.6.2",
     "ie-design-system": "https://github.com/ie/ie-design-system.git#feature/react",
     "jsdom": "^15.1.0",
